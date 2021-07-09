@@ -1,0 +1,65 @@
+{
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true
+  },
+  "extends": [
+    "airbnb-typescript",
+    "airbnb/hooks",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:jest/recommended",
+    "prettier"
+  ],
+  "plugins": ["react", "@typescript-eslint", "jest", "prettier"],
+  "globals": {
+    "Atomics": "readonly",
+    "SharedArrayBuffer": "readonly"
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "rules": {
+    "react/jsx-uses-react": "off",
+    "react/react-in-jsx-scope": "off",
+    "linebreak-style": "off",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
+    // disable the rule for all files
+    "@typescript-eslint/explicit-module-boundary-types": "off"
+  },
+  "overrides": [
+    {
+      // enable the rule specifically for TypeScript files
+      "files": ["*.ts", "*.tsx"],
+      "rules": {
+        "@typescript-eslint/explicit-module-boundary-types": ["error"],
+        "react/jsx-props-no-spreading": [
+          "error",
+          {
+            "html": "enforce",
+            "custom": "enforce",
+            "explicitSpread": "enforce"
+          }
+        ] // This prevents explicit object spreading props i.e. {...{prop1, prop2}}. The reason for this is that typescript doesn't type check object spreaded props so you can be left with unused props on your components. By forcing props to be inserted like <Component prop1={prop1} prop2={prop2}/> TypeScript will type check and error that prop2 is not a prop on Component.
+      }
+    }
+  ],
+  "settings": {
+    "react": {
+      "version": "detect", // Tells eslint-plugin-react to automatically detect the version of React to use
+      "pragma": "h",
+      "pragmaFrag": "Fragment"
+    }
+  }
+}
