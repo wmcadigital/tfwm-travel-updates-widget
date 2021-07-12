@@ -25,6 +25,7 @@ const TrainFav = ({ line, from, to, setTrainFavsFetched }: TrainFavProps): JSX.E
       const { id, disruptionSeverity, name } = trainObj;
       render = (
         <DisruptionIndicator
+          id={id}
           disruptionSeverity={disruptionSeverity}
           disruptionUrlSearchParams={`?mode=train&query=${name}&queryTo=${name}&selectedItem=${id}&selectedItemTo=${id}`}
           formatDisruptionIndicatorText

@@ -1,5 +1,6 @@
-import { GlobalContext } from 'globalState/GlobalStateContext';
 import { useContext } from 'preact/hooks';
+// State
+import { GlobalContext } from 'globalState/GlobalStateContext';
 
 type DisruptionRowContainerProps = {
   children: React.ReactNode;

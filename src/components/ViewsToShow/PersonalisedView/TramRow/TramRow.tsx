@@ -17,6 +17,7 @@ const TramRow = ({ favs }: TramRowProps): JSX.Element => {
             const { atcoCode: id, disruptionSeverity, name } = tramStop;
             return (
               <DisruptionIndicator
+                id={id}
                 disruptionSeverity={disruptionSeverity}
                 disruptionUrlSearchParams={`?mode=tram&query=${name}&queryTo=${name}&selectedItem=${id}&selectedItemTo=${id}`}
                 indicatorText="MM1"

@@ -1,56 +1,15 @@
-import Icon from 'components/shared/Icon/Icon';
-import { GlobalContext } from 'globalState/GlobalStateContext';
 import { useContext } from 'preact/hooks';
+// Components
+import Icon from 'components/shared/Icon/Icon';
+// State
+import { GlobalContext } from 'globalState/GlobalStateContext';
+// Types
 import { TransformedModes, DisruptionSeverity } from 'sharedTypes';
-import Link from '../Link/Link';
-
-const getSeverityVars = (disruptionSeverity: DisruptionSeverity) => {
-  let disruptionFlag = {
-    text: 'Unknown service',
-    icon: 'success',
-    class: 'success',
-  };
-
-  // Do a switch on the disruption severity, then map the type and iconName to the correct vars
-  switch (disruptionSeverity) {
-    // Minor disruption (normal)
-    case 'normal':
-      disruptionFlag = {
-        text: 'Minor disruption',
-        icon: 'warning-circle',
-        class: 'warning',
-      };
-      break;
-    // Major disruption (high)
-    case 'high':
-      disruptionFlag = {
-        text: 'Major disruption',
-        icon: 'warning-triangle',
-        class: 'error',
-      };
-      break;
-    // Severe disruption (veryHigh)
-    case 'veryHigh':
-      disruptionFlag = {
-        text: 'Severe disruption',
-        icon: 'warning-triangle',
-        class: 'severe',
-      };
-      break;
-    // Good service (low)
-    default:
-      disruptionFlag = {
-        text: 'Good service',
-        icon: 'success',
-        class: 'success',
-      };
-      break;
-  }
-
-  return disruptionFlag;
-};
+// Helper funcs
+import { disruptionTextElementToShow, getSeverityVars, handleDeleteService } from './helpers';
 
 type DisruptionIndicatorProps = {
+  id: string;
   disruptionSeverity: DisruptionSeverity;
   disruptionUrlSearchParams?: string;
   formatDisruptionIndicatorText?: boolean;
@@ -66,6 +25,7 @@ const defaultProps = {
 };
 
 const DisruptionIndicator = ({
+  id,
   disruptionSeverity,
   disruptionUrlSearchParams,
   formatDisruptionIndicatorText,
@@ -76,6 +36,8 @@ const DisruptionIndicator = ({
   const [{ editMode }] = useContext(GlobalContext);
   const severity = getSeverityVars(disruptionSeverity);
 
+  const disruptionText = disruptionTextElementToShow(severity.text, disruptionUrlSearchParams);
+
   return (
     <div className="wmnds-travel-update__disruption">
       <button
@@ -85,7 +47,7 @@ const DisruptionIndicator = ({
       >
         <div
           className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--narrow
-          wmnds-disruption-indicator-medium--${severity.class} ${
+          ${!editMode && `wmnds-disruption-indicator-medium--${severity.class}`} ${
             formatDisruptionIndicatorText && 'wmnds-disruption-indicator-medium--capitalize'
           }`}
         >
@@ -105,20 +67,17 @@ const DisruptionIndicator = ({
 
       <div className="wmnds-travel-update__disruption-text">
         {optionalText && <strong>{optionalText}</strong>}
-        {
-          // If good service, display as strong. Otherwise display as link to that service
-          severity.text !== 'Good service' ? (
-            <Link href={`//disruptions.tfwm.org.uk/${disruptionUrlSearchParams}`}>
-              {severity.text}
-            </Link>
-          ) : (
-            <strong>{severity.text}</strong>
-          )
-        }
+
+        {!editMode && disruptionText}
       </div>
 
       {editMode && (
-        <button type="button" className="wmnds-travel-update__disruption-delete">
+        <button
+          type="button"
+          className="wmnds-travel-update__disruption-delete"
+          title={`Delete ${indicatorText}${optionalText && ` - ${optionalText}`} service`}
+          onClick={() => handleDeleteService(id)}
+        >
           <Icon iconName="general-trash" />
         </button>
       )}

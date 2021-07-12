@@ -19,6 +19,7 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
 
             return (
               <DisruptionIndicator
+                id={id}
                 disruptionSeverity={disruptionSeverity}
                 disruptionUrlSearchParams={`?mode=bus&query=${serviceNumber}&selectedItem=${id}`}
                 indicatorText={serviceNumber}
