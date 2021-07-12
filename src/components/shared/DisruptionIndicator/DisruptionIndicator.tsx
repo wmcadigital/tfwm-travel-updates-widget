@@ -6,7 +6,7 @@ import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
 import { DisruptionIndicatorTypes } from 'sharedTypes';
 // Helper funcs
-import { disruptionTextElementToShow, getSeverityVars, handleDeleteService } from './helpers';
+import { disruptionTextElementToShow, getSeverityVars } from './helpers';
 
 type DisruptionIndicatorProps = DisruptionIndicatorTypes & typeof defaultProps;
 
@@ -25,10 +25,20 @@ const DisruptionIndicator = ({
   modalIcon,
   optionalText,
 }: DisruptionIndicatorProps): JSX.Element => {
-  const [{ editMode }] = useContext(GlobalContext);
+  const [{ editMode }, dispatch] = useContext(GlobalContext);
   const severity = getSeverityVars(disruptionSeverity);
 
   const disruptionText = disruptionTextElementToShow(severity.text, disruptionUrlSearchParams);
+
+  const removeService = () => {
+    dispatch({
+      type: 'REMOVE_SERVICE',
+      payload: {
+        mode: 'bus',
+        id,
+      },
+    });
+  };
 
   return (
     <div className="wmnds-travel-update__disruption">
@@ -68,7 +78,7 @@ const DisruptionIndicator = ({
           type="button"
           className="wmnds-travel-update__disruption-delete"
           title={`Delete ${indicatorText}${optionalText && ` - ${optionalText}`} service`}
-          onClick={() => handleDeleteService(id)}
+          onClick={removeService}
         >
           <Icon iconName="general-trash" />
         </button>

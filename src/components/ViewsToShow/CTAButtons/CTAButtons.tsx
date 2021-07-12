@@ -8,7 +8,7 @@ const CTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
   const [state, dispatch] = useContext(GlobalContext);
 
-  const handleEditServicesClick = () => dispatch({ payload: true, type: 'SET_EDIT_MODE' });
+  const handleEditServicesClick = () => dispatch({ type: 'SET_EDIT_MODE', payload: true });
 
   return (
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">

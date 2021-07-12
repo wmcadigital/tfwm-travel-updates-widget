@@ -12,6 +12,7 @@ type InitialStateProps = {
   bus: DisruptionIndicatorTypes[];
   tram: DisruptionIndicatorTypes[];
   train: DisruptionIndicatorTypes[];
+  roads: DisruptionIndicatorTypes[];
 };
 
 type ActionType =
@@ -25,6 +26,13 @@ type ActionType =
         mode: DefaultModes;
         data: DisruptionIndicatorTypes[];
       };
+    }
+  | {
+      type: 'REMOVE_SERVICE';
+      payload: {
+        mode: DefaultModes;
+        id: string;
+      };
     };
 
 const initialState: InitialStateProps = {
@@ -32,6 +40,7 @@ const initialState: InitialStateProps = {
   bus: [],
   tram: [],
   train: [],
+  roads: [],
 };
 
 export const GlobalContext = createContext<CreateContextProps<InitialStateProps, ActionType>>([
@@ -48,11 +57,22 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
           editMode: action.payload,
         };
 
-      case 'UPDATE_SERVICES':
+      case 'UPDATE_SERVICES': {
+        const { mode, data } = action.payload;
         return {
           ...state,
-          [action.payload.mode]: action.payload.data,
+          [mode]: data,
         };
+      }
+
+      case 'REMOVE_SERVICE': {
+        const { mode, id } = action.payload;
+
+        return {
+          ...state,
+          [mode]: state[mode].filter(item => id !== item.id),
+        };
+      }
       default:
         return initialState;
     }

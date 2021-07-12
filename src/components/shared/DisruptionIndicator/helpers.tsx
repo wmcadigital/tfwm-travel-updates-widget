@@ -64,7 +64,3 @@ export const disruptionTextElementToShow = (text: string, urlPath: string): JSX.
 
   return <strong>{text}</strong>;
 };
-
-export const handleDeleteService = (id: string): void => {
-  console.log({ id });
-};
