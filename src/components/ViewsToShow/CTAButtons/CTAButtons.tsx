@@ -1,8 +1,8 @@
+import { useContext, useEffect } from 'preact/hooks';
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
 import { GlobalContext } from 'globalState/GlobalStateContext';
 import { hasAnyFavourites } from 'helpers';
-import { useContext, useEffect } from 'preact/hooks';
 
 const CTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
