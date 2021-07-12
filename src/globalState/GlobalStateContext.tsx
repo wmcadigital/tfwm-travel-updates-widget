@@ -1,18 +1,37 @@
 import { createContext } from 'preact';
 import { useReducer } from 'preact/hooks';
-import { ContextProviderProps, CreateContextProps } from 'sharedTypes';
+import {
+  ContextProviderProps,
+  CreateContextProps,
+  DefaultModes,
+  DisruptionIndicatorTypes,
+} from 'sharedTypes';
 
 type InitialStateProps = {
   editMode: boolean;
+  bus: DisruptionIndicatorTypes[];
+  tram: DisruptionIndicatorTypes[];
+  train: DisruptionIndicatorTypes[];
 };
 
-type ActionType = {
-  payload: boolean;
-  type: 'SET_EDIT_MODE';
-};
+type ActionType =
+  | {
+      type: 'SET_EDIT_MODE';
+      payload: boolean;
+    }
+  | {
+      type: 'UPDATE_SERVICES';
+      payload: {
+        mode: DefaultModes;
+        data: DisruptionIndicatorTypes[];
+      };
+    };
 
 const initialState: InitialStateProps = {
   editMode: false,
+  bus: [],
+  tram: [],
+  train: [],
 };
 
 export const GlobalContext = createContext<CreateContextProps<InitialStateProps, ActionType>>([
@@ -27,6 +46,12 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
         return {
           ...state,
           editMode: action.payload,
+        };
+
+      case 'UPDATE_SERVICES':
+        return {
+          ...state,
+          [action.payload.mode]: action.payload.data,
         };
       default:
         return initialState;

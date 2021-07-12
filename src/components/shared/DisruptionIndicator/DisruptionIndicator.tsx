@@ -4,19 +4,11 @@ import Icon from 'components/shared/Icon/Icon';
 // State
 import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
-import { TransformedModes, DisruptionSeverity } from 'sharedTypes';
+import { DisruptionIndicatorTypes } from 'sharedTypes';
 // Helper funcs
 import { disruptionTextElementToShow, getSeverityVars, handleDeleteService } from './helpers';
 
-type DisruptionIndicatorProps = {
-  id: string;
-  disruptionSeverity: DisruptionSeverity;
-  disruptionUrlSearchParams?: string;
-  formatDisruptionIndicatorText?: boolean;
-  indicatorText: string;
-  optionalText?: string;
-  modalIcon: TransformedModes;
-} & typeof defaultProps;
+type DisruptionIndicatorProps = DisruptionIndicatorTypes & typeof defaultProps;
 
 const defaultProps = {
   disruptionUrlSearchParams: '',

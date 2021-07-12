@@ -1,3 +1,4 @@
+import 'preact/debug';
 import habitat from 'preact-habitat';
 import App from './components/App/App';
 
