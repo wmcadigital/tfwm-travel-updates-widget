@@ -1,4 +1,6 @@
 import Icon from 'components/shared/Icon/Icon';
+import { GlobalContext } from 'globalState/GlobalStateContext';
+import { useContext } from 'preact/hooks';
 import { TransformedModes, DisruptionSeverity } from 'sharedTypes';
 import Link from '../Link/Link';
 
@@ -71,6 +73,7 @@ const DisruptionIndicator = ({
   modalIcon,
   optionalText,
 }: DisruptionIndicatorProps): JSX.Element => {
+  const [{ editMode }] = useContext(GlobalContext);
   const severity = getSeverityVars(disruptionSeverity);
 
   return (
@@ -113,6 +116,12 @@ const DisruptionIndicator = ({
           )
         }
       </div>
+
+      {editMode && (
+        <button type="button" className="wmnds-travel-update__disruption-delete">
+          <Icon iconName="general-trash" />
+        </button>
+      )}
     </div>
   );
 };

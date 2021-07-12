@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'preact/hooks';
+import { useContext } from 'preact/hooks';
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
 import { GlobalContext } from 'globalState/GlobalStateContext';
@@ -8,12 +8,7 @@ const CTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
   const [state, dispatch] = useContext(GlobalContext);
 
-  useEffect(() => {
-    // Test dispatch
-    dispatch({ payload: true, type: 'SET_EDIT_MODE' });
-  }, [dispatch]);
-
-  console.log({ state, dispatch });
+  const handleEditServicesClick = () => dispatch({ payload: true, type: 'SET_EDIT_MODE' });
 
   return (
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">
@@ -24,6 +19,7 @@ const CTAButtons = (): JSX.Element => {
             className="wmnds-btn wmnds-btn--mode wmnds-btn--block wmnds-m-b-md"
             type="button"
             data-btn-name="edit-services"
+            onClick={handleEditServicesClick}
           >
             Edit your services {state.editMode}
           </button>

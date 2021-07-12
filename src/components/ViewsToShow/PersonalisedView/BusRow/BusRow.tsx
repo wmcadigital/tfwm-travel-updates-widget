@@ -1,13 +1,15 @@
 import DisruptionIndicator from 'components/shared/DisruptionIndicator/DisruptionIndicator';
+import DisruptionRowContainer from 'components/shared/DisruptionRowContainer/DisruptionRowContainer';
 import PersonalRowTitle from 'components/shared/PersonalRowTitle/PersonalRowTitle';
 import useFetch from 'customHooks/useFetch';
 import { BusRowProps, BusServicesAPI } from './types';
 
 const BusRow = ({ favs }: BusRowProps): JSX.Element => {
   const { response, isFetching } = useFetch<BusServicesAPI>(`/bus/v1/service/${favs}`);
+
   return (
     <>
-      <div className="wmnds-travel-update wmnds-travel-update--personal" data-disruption-mode="bus">
+      <DisruptionRowContainer>
         <PersonalRowTitle title="Bus" isFetching={isFetching} />
 
         {!isFetching &&
@@ -25,7 +27,7 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
               />
             );
           })}
-      </div>
+      </DisruptionRowContainer>
       <hr />
     </>
   );

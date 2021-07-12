@@ -1,5 +1,6 @@
 import { useState } from 'preact/hooks';
 import PersonalRowTitle from 'components/shared/PersonalRowTitle/PersonalRowTitle';
+import DisruptionRowContainer from 'components/shared/DisruptionRowContainer/DisruptionRowContainer';
 import TrainFav from './TrainFav/TrainFav';
 import { TrainRowProps } from './types';
 
@@ -9,7 +10,7 @@ const TrainRow = ({ favs }: TrainRowProps): JSX.Element => {
 
   return (
     <>
-      <div className="wmnds-travel-update wmnds-travel-update--personal" data-disruption-mode="bus">
+      <DisruptionRowContainer>
         <PersonalRowTitle title="Train" isFetching={isFetching} />
 
         {favs.map(({ line, from, to }) => {
@@ -19,7 +20,7 @@ const TrainRow = ({ favs }: TrainRowProps): JSX.Element => {
             );
           return null;
         })}
-      </div>
+      </DisruptionRowContainer>
       <hr />
     </>
   );
