@@ -1,9 +1,19 @@
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
+import { GlobalContext } from 'globalState/GlobalStateContext';
 import { hasAnyFavourites } from 'helpers';
+import { useContext, useEffect } from 'preact/hooks';
 
 const CTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
+  const [state, dispatch] = useContext(GlobalContext);
+
+  useEffect(() => {
+    // Test dispatch
+    dispatch({ payload: true, type: 'SET_EDIT_MODE' });
+  }, [dispatch]);
+
+  console.log({ state, dispatch });
 
   return (
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">
@@ -15,7 +25,7 @@ const CTAButtons = (): JSX.Element => {
             type="button"
             data-btn-name="edit-services"
           >
-            Edit your services
+            Edit your services {state.editMode}
           </button>
         ) : (
           <Link
