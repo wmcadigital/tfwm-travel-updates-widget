@@ -26,6 +26,7 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
           indicatorText: serviceNumber,
           optionalText: routes?.length ? routes[0].routeName : '',
           modalIcon: 'bus',
+          mode: 'bus',
         })
       );
 
@@ -54,6 +55,7 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
               indicatorText,
               optionalText,
               modalIcon,
+              mode,
             }) => (
               <DisruptionIndicator
                 id={id}
@@ -63,6 +65,7 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
                 indicatorText={indicatorText}
                 optionalText={optionalText}
                 modalIcon={modalIcon}
+                mode={mode}
               />
             )
           )}

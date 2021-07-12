@@ -26,6 +26,7 @@ const TramRow = ({ favs }: TramRowProps): JSX.Element => {
           indicatorText: 'MM1',
           optionalText: name,
           modalIcon: 'metro',
+          mode: 'tram',
         })
       );
 
@@ -53,6 +54,7 @@ const TramRow = ({ favs }: TramRowProps): JSX.Element => {
               indicatorText,
               optionalText,
               modalIcon,
+              mode,
             }) => (
               <DisruptionIndicator
                 id={id}
@@ -62,6 +64,7 @@ const TramRow = ({ favs }: TramRowProps): JSX.Element => {
                 indicatorText={indicatorText}
                 optionalText={optionalText}
                 modalIcon={modalIcon}
+                mode={mode}
               />
             )
           )}

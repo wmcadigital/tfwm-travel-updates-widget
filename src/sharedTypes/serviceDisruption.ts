@@ -1,4 +1,5 @@
 import { TransformedModes } from 'sharedTypes';
+import { DefaultModes } from './modes';
 
 export type DisruptionSeverity = 'none' | 'normal' | 'high' | 'veryHigh' | undefined;
 
@@ -10,4 +11,5 @@ export type DisruptionIndicatorTypes = {
   indicatorText: string;
   optionalText?: string;
   modalIcon: TransformedModes;
+  mode: DefaultModes;
 };

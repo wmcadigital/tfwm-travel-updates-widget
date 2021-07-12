@@ -22,6 +22,7 @@ const DisruptionIndicator = ({
   disruptionUrlSearchParams,
   formatDisruptionIndicatorText,
   indicatorText,
+  mode,
   modalIcon,
   optionalText,
 }: DisruptionIndicatorProps): JSX.Element => {
@@ -34,7 +35,7 @@ const DisruptionIndicator = ({
     dispatch({
       type: 'REMOVE_SERVICE',
       payload: {
-        mode: 'bus',
+        mode,
         id,
       },
     });
