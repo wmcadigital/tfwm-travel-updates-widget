@@ -45,7 +45,6 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
         <PersonalRowTitle title="Bus" isFetching={isFetching} />
 
         {!isFetching &&
-          state.bus &&
           state.bus.map(
             ({
               id,
