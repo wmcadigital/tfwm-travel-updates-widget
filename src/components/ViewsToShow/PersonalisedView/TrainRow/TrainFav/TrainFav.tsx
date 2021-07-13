@@ -42,6 +42,14 @@ const TrainFav = ({ line, from, to, setTrainFavsFetched }: TrainFavProps): JSX.E
         mode: 'train',
       };
 
+      dispatch({
+        type: 'UPDATE_SERVICES',
+        payload: {
+          mode: 'train',
+          data,
+        },
+      });
+
       render = (
         <DisruptionIndicator
           id={data.id}
