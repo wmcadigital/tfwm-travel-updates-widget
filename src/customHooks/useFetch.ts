@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
+// Types
 import { TypeOrNull } from 'sharedTypes';
 
+// Axios config
 axios.defaults.baseURL = 'https://wmca-api-portal-staging.azure-api.net';
 axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': '0d4cca4a2c5d40c3bfbbfe45d1bbf294' };
 

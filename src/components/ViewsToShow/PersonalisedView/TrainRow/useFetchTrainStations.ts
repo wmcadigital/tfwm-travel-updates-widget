@@ -1,23 +1,22 @@
 import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
+// Types
 import { TypeOrNull } from 'sharedTypes';
-import {
-  DataEntity,
-  TrainStationAPI,
-} from 'components/ViewsToShow/PersonalisedView/TrainRow/TrainFav/types';
 import { TrainEntity } from 'helpers/cookies/types';
+import { TrainStationAPIData, TrainStationAPI } from './types';
 
+// Axios config
 axios.defaults.baseURL = 'https://wmca-api-portal-staging.azure-api.net';
 axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': '0d4cca4a2c5d40c3bfbbfe45d1bbf294' };
 
 interface UseFetchReturn {
-  response: TypeOrNull<DataEntity[]>;
+  response: TypeOrNull<TrainStationAPIData[]>;
   isFetching: boolean;
   hasError: boolean;
 }
 
-const useFetch = (favs: TrainEntity[]): UseFetchReturn => {
-  const [response, setResponse] = useState<TypeOrNull<DataEntity[]>>(null);
+const useFetchTrainStations = (favs: TrainEntity[]): UseFetchReturn => {
+  const [response, setResponse] = useState<TypeOrNull<TrainStationAPIData[]>>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false); // Placeholder to set error messaging
 
@@ -54,7 +53,7 @@ const useFetch = (favs: TrainEntity[]): UseFetchReturn => {
         // Filter out any null or undefined
         const filterData = data.filter(
           trainStation => trainStation !== undefined && trainStation !== null
-        ) as DataEntity[]; // marking as DataEntity array as we have filtered out undefined and null items;
+        ) as TrainStationAPIData[]; // marking as DataEntity array as we have filtered out undefined and null items;
         setResponse(filterData);
       })
       .catch(error => {
@@ -68,4 +67,4 @@ const useFetch = (favs: TrainEntity[]): UseFetchReturn => {
   return { response, isFetching, hasError };
 };
 
-export default useFetch;
+export default useFetchTrainStations;

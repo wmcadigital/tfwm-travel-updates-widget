@@ -1,8 +1,6 @@
 import { useContext, useEffect } from 'preact/hooks';
 // Components
-import DisruptionIndicator from 'components/shared/DisruptionIndicator/DisruptionIndicator';
 import DisruptionRowContainer from 'components/shared/DisruptionRowContainer/DisruptionRowContainer';
-import PersonalRowTitle from 'components/shared/PersonalRowTitle/PersonalRowTitle';
 // Custom hooks
 import useFetch from 'customHooks/useFetch';
 // State
@@ -12,7 +10,7 @@ import { DisruptionIndicatorTypes } from 'sharedTypes';
 import { BusRowProps, BusServicesAPI } from './types';
 
 const BusRow = ({ favs }: BusRowProps): JSX.Element => {
-  const [state, dispatch] = useContext(GlobalContext);
+  const [, dispatch] = useContext(GlobalContext);
   const { response, isFetching } = useFetch<BusServicesAPI>(`/bus/v1/service/${favs}`);
 
   useEffect(() => {
@@ -40,39 +38,7 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
     }
   }, [dispatch, response]);
 
-  return (
-    <>
-      <DisruptionRowContainer>
-        <PersonalRowTitle title="Bus" isFetching={isFetching} />
-
-        {!isFetching &&
-          state.bus.map(
-            ({
-              id,
-              disruptionSeverity,
-              disruptionUrlSearchParams,
-              formatDisruptionIndicatorText,
-              indicatorText,
-              optionalText,
-              modalIcon,
-              mode,
-            }) => (
-              <DisruptionIndicator
-                id={id}
-                disruptionSeverity={disruptionSeverity}
-                disruptionUrlSearchParams={disruptionUrlSearchParams}
-                formatDisruptionIndicatorText={formatDisruptionIndicatorText}
-                indicatorText={indicatorText}
-                optionalText={optionalText}
-                modalIcon={modalIcon}
-                mode={mode}
-              />
-            )
-          )}
-      </DisruptionRowContainer>
-      <hr />
-    </>
-  );
+  return <DisruptionRowContainer mode="bus" isFetching={isFetching} />;
 };
 
 export default BusRow;

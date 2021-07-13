@@ -1,8 +1,6 @@
 import { useContext, useEffect } from 'preact/hooks';
 // Components
-import DisruptionIndicator from 'components/shared/DisruptionIndicator/DisruptionIndicator';
 import DisruptionRowContainer from 'components/shared/DisruptionRowContainer/DisruptionRowContainer';
-import PersonalRowTitle from 'components/shared/PersonalRowTitle/PersonalRowTitle';
 // Custom hooks
 import useFetch from 'customHooks/useFetch';
 // State
@@ -12,7 +10,7 @@ import { DisruptionIndicatorTypes } from 'sharedTypes';
 import { TramStopsAPI, TramRowProps } from './types';
 
 const TramRow = ({ favs }: TramRowProps): JSX.Element => {
-  const [state, dispatch] = useContext(GlobalContext);
+  const [, dispatch] = useContext(GlobalContext);
   const { response, isFetching } = useFetch<TramStopsAPI>(`/metro/v2/stop/${favs}`);
 
   useEffect(() => {
@@ -39,39 +37,8 @@ const TramRow = ({ favs }: TramRowProps): JSX.Element => {
       });
     }
   }, [dispatch, response]);
-  return (
-    <>
-      <DisruptionRowContainer>
-        <PersonalRowTitle title="Tram" isFetching={isFetching} />
 
-        {!isFetching &&
-          state.tram.map(
-            ({
-              id,
-              disruptionSeverity,
-              disruptionUrlSearchParams,
-              formatDisruptionIndicatorText,
-              indicatorText,
-              optionalText,
-              modalIcon,
-              mode,
-            }) => (
-              <DisruptionIndicator
-                id={id}
-                disruptionSeverity={disruptionSeverity}
-                disruptionUrlSearchParams={disruptionUrlSearchParams}
-                formatDisruptionIndicatorText={formatDisruptionIndicatorText}
-                indicatorText={indicatorText}
-                optionalText={optionalText}
-                modalIcon={modalIcon}
-                mode={mode}
-              />
-            )
-          )}
-      </DisruptionRowContainer>
-      <hr />
-    </>
-  );
+  return <DisruptionRowContainer mode="tram" isFetching={isFetching} />;
 };
 
 export default TramRow;
