@@ -15,6 +15,7 @@ export interface TrainStationAPI {
   data?: DataEntity[] | null;
 }
 export interface DataEntity {
+  lineId?: string;
   id: string;
   name: string;
   address?: string[] | null;
