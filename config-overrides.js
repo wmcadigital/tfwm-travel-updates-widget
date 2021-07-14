@@ -11,7 +11,7 @@ module.exports = {
     };
 
     // JS
-    config.output.filename = 'static/js/build.js';
+    config.output.filename = 'static/js/build.min.js';
     // CSS remove MiniCssPlugin
     // config.plugins = config.plugins.filter(plugin => !(plugin instanceof MiniCssExtractPlugin));
     // // CSS replaces all MiniCssExtractPlugin.loader with style-loader
