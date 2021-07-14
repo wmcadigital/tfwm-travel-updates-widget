@@ -9,7 +9,8 @@ const PersonalisedCTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
   const [state, dispatch] = useContext(GlobalContext);
 
-  const handleEditServicesClick = () => dispatch({ type: 'SET_EDIT_MODE', payload: true });
+  const handleEditServicesClick = () =>
+    dispatch({ type: 'SET_EDIT_MODE', payload: !state.editMode });
 
   return (
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">
@@ -25,14 +26,13 @@ const PersonalisedCTAButtons = (): JSX.Element => {
             Edit your services {state.editMode}
           </button>
         ) : (
-          <Link
-            href={disruptionsLink}
+          <button
+            type="button"
             className="wmnds-btn wmnds-btn--mode wmnds-btn--block wmnds-m-b-md"
-            isButton
+            onClick={handleEditServicesClick}
           >
-            Add services
-            <Icon className="wmnds-btn__icon wmnds-btn__icon--right" iconName="general-expand" />
-          </Link>
+            Cancel
+          </button>
         )}
       </div>
       {/* View all updates button */}
