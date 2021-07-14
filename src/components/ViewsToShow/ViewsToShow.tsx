@@ -7,8 +7,6 @@ const ViewsToShow = (): JSX.Element => (
     <h2 className="wmnds-content-card__title">Travel updates</h2>
 
     {hasAnyFavourites() ? <PersonalisedView /> : <DefaultView />}
-
-    {/* <CTAButtons /> */}
   </div>
 );
 

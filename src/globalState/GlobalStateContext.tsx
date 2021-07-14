@@ -18,6 +18,7 @@ type InitialStateProps = {
   editMode: boolean;
   favs: FavsStateProps;
   previousFavs: FavsStateProps;
+  favsToRemoveOnSave: { mode: DefaultModes; id: string }[];
 };
 
 type ActionType =
@@ -42,6 +43,9 @@ type ActionType =
   | {
       type: 'CANCEL_STATE';
       payload: FavsStateProps;
+    }
+  | {
+      type: 'SAVE_NEW_STATE';
     };
 
 const initialState: InitialStateProps = {
@@ -58,6 +62,7 @@ const initialState: InitialStateProps = {
     train: [],
     roads: [],
   },
+  favsToRemoveOnSave: [],
 };
 
 export const GlobalContext = createContext<CreateContextProps<InitialStateProps, ActionType>>([
@@ -97,17 +102,22 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
             ...state.favs,
             [mode]: state.favs[mode].filter(item => id !== item.id),
           },
+          favsToRemoveOnSave: [...state.favsToRemoveOnSave, { id, mode }],
         };
       }
 
       case 'CANCEL_STATE':
-        console.log('cloned state');
         return {
           ...state,
           favs: {
             ...state.previousFavs,
           },
+          favsToRemoveOnSave: [],
         };
+
+      case 'SAVE_NEW_STATE': {
+        return { ...state, previousFavs: { ...state.favs }, favsToRemoveOnSave: [] };
+      }
 
       default:
         return initialState;

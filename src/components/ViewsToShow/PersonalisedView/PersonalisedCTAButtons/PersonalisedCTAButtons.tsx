@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'preact/hooks';
+import { useContext } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
@@ -13,9 +13,14 @@ const PersonalisedCTAButtons = (): JSX.Element => {
 
   const oldState = state.favs;
 
-  const handleCancelClick = () => {
+  const handleCancelChanges = () => {
     dispatch({ type: 'SET_EDIT_MODE', payload: false });
     dispatch({ type: 'CANCEL_STATE', payload: oldState });
+  };
+
+  const handleSaveChanges = () => {
+    dispatch({ type: 'SET_EDIT_MODE', payload: false });
+    dispatch({ type: 'SAVE_NEW_STATE' });
   };
 
   return (
@@ -35,7 +40,7 @@ const PersonalisedCTAButtons = (): JSX.Element => {
           <button
             type="button"
             className="wmnds-btn wmnds-btn--mode wmnds-btn--block wmnds-m-b-md"
-            onClick={handleCancelClick}
+            onClick={handleCancelChanges}
           >
             Cancel
           </button>
@@ -52,7 +57,7 @@ const PersonalisedCTAButtons = (): JSX.Element => {
             />
           </Link>
         ) : (
-          <button type="button" className="wmnds-btn wmnds-btn--block">
+          <button type="button" className="wmnds-btn wmnds-btn--block" onClick={handleSaveChanges}>
             Save changes
           </button>
         )}
