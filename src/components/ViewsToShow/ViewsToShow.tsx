@@ -1,5 +1,4 @@
 import { hasAnyFavourites } from 'helpers/cookies/cookies';
-import CTAButtons from './CTAButtons/CTAButtons';
 import DefaultView from './DefaultView/DefaultView';
 import PersonalisedView from './PersonalisedView/PersonalisedView';
 
@@ -9,7 +8,7 @@ const ViewsToShow = (): JSX.Element => (
 
     {hasAnyFavourites() ? <PersonalisedView /> : <DefaultView />}
 
-    <CTAButtons />
+    {/* <CTAButtons /> */}
   </div>
 );
 

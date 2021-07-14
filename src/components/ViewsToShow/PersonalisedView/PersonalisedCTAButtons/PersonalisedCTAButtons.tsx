@@ -1,10 +1,11 @@
 import { useContext } from 'preact/hooks';
+// Components
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
+// State
 import { GlobalContext } from 'globalState/GlobalStateContext';
-import { hasAnyFavourites } from 'helpers';
 
-const CTAButtons = (): JSX.Element => {
+const PersonalisedCTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
   const [state, dispatch] = useContext(GlobalContext);
 
@@ -14,7 +15,7 @@ const CTAButtons = (): JSX.Element => {
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">
       {/* Add services button */}
       <div className="wmnds-col-1 wmnds-col-sm-1-2">
-        {hasAnyFavourites() ? (
+        {!state.editMode ? (
           <button
             className="wmnds-btn wmnds-btn--mode wmnds-btn--block wmnds-m-b-md"
             type="button"
@@ -36,16 +37,22 @@ const CTAButtons = (): JSX.Element => {
       </div>
       {/* View all updates button */}
       <div className="wmnds-col-1 wmnds-col-sm-1-2">
-        <Link className="wmnds-btn wmnds-btn--block" href={disruptionsLink} isButton>
-          View all updates
-          <Icon
-            className="wmnds-btn__icon wmnds-btn__icon--right"
-            iconName="general-chevron-right"
-          />
-        </Link>
+        {!state.editMode ? (
+          <Link className="wmnds-btn wmnds-btn--block" href={disruptionsLink} isButton>
+            View all updates
+            <Icon
+              className="wmnds-btn__icon wmnds-btn__icon--right"
+              iconName="general-chevron-right"
+            />
+          </Link>
+        ) : (
+          <button type="button" className="wmnds-btn wmnds-btn--block">
+            Save changes
+          </button>
+        )}
       </div>
     </div>
   );
 };
 
-export default CTAButtons;
+export default PersonalisedCTAButtons;
