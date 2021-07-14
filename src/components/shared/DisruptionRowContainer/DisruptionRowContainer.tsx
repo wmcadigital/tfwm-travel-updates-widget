@@ -28,7 +28,7 @@ const DisruptionRowContainer = ({ mode, isFetching }: DisruptionRowContainerProp
 
         {/* Loop through modes services and show a disruption indicator for them */}
         {!isFetching &&
-          state[mode].map(
+          state.favs[mode].map(
             ({
               id,
               disruptionSeverity,

@@ -1,4 +1,4 @@
-import { useContext } from 'preact/hooks';
+import { useContext, useEffect } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
@@ -9,8 +9,14 @@ const PersonalisedCTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
   const [state, dispatch] = useContext(GlobalContext);
 
-  const handleEditServicesClick = () =>
-    dispatch({ type: 'SET_EDIT_MODE', payload: !state.editMode });
+  const handleEditServicesClick = () => dispatch({ type: 'SET_EDIT_MODE', payload: true });
+
+  const oldState = state.favs;
+
+  const handleCancelClick = () => {
+    dispatch({ type: 'SET_EDIT_MODE', payload: false });
+    dispatch({ type: 'CANCEL_STATE', payload: oldState });
+  };
 
   return (
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">
@@ -29,7 +35,7 @@ const PersonalisedCTAButtons = (): JSX.Element => {
           <button
             type="button"
             className="wmnds-btn wmnds-btn--mode wmnds-btn--block wmnds-m-b-md"
-            onClick={handleEditServicesClick}
+            onClick={handleCancelClick}
           >
             Cancel
           </button>

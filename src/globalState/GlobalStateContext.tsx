@@ -7,12 +7,17 @@ import {
   DisruptionIndicatorTypes,
 } from 'sharedTypes';
 
-type InitialStateProps = {
-  editMode: boolean;
+export type FavsStateProps = {
   bus: DisruptionIndicatorTypes[];
   tram: DisruptionIndicatorTypes[];
   train: DisruptionIndicatorTypes[];
   roads: DisruptionIndicatorTypes[];
+};
+
+type InitialStateProps = {
+  editMode: boolean;
+  favs: FavsStateProps;
+  previousFavs: FavsStateProps;
 };
 
 type ActionType =
@@ -33,14 +38,26 @@ type ActionType =
         mode: DefaultModes;
         id: string;
       };
+    }
+  | {
+      type: 'CANCEL_STATE';
+      payload: FavsStateProps;
     };
 
 const initialState: InitialStateProps = {
   editMode: false,
-  bus: [],
-  tram: [],
-  train: [],
-  roads: [],
+  favs: {
+    bus: [],
+    tram: [],
+    train: [],
+    roads: [],
+  },
+  previousFavs: {
+    bus: [],
+    tram: [],
+    train: [],
+    roads: [],
+  },
 };
 
 export const GlobalContext = createContext<CreateContextProps<InitialStateProps, ActionType>>([
@@ -61,18 +78,37 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
         const { mode, data } = action.payload;
         return {
           ...state,
-          [mode]: data,
+          favs: {
+            ...state.favs,
+            [mode]: data,
+          },
+          previousFavs: {
+            ...state.previousFavs,
+            [mode]: data,
+          },
         };
       }
 
       case 'REMOVE_SERVICE': {
         const { mode, id } = action.payload;
-
         return {
           ...state,
-          [mode]: state[mode].filter(item => id !== item.id),
+          favs: {
+            ...state.favs,
+            [mode]: state.favs[mode].filter(item => id !== item.id),
+          },
         };
       }
+
+      case 'CANCEL_STATE':
+        console.log('cloned state');
+        return {
+          ...state,
+          favs: {
+            ...state.previousFavs,
+          },
+        };
+
       default:
         return initialState;
     }
