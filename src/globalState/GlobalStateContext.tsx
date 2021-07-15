@@ -1,5 +1,5 @@
-import { getDisruptionCookieData, getFavouritesFromCookies, setCookie } from 'helpers';
-import { Favs, TrainEntity } from 'helpers/cookies/types';
+import { getDisruptionCookieData, setCookie } from 'helpers';
+import { TrainEntity } from 'helpers/cookies/types';
 import { createContext } from 'preact';
 import { useReducer } from 'preact/hooks';
 import {
@@ -125,23 +125,21 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
           const cookiesFavsObj = cookieObj.favs;
 
           const cookiesModeArr = cookiesFavsObj[mode] as TrainEntity[] & string[]; // set as both because TypeScript has a bug with filtering union arrays
-          if (!cookiesModeArr) return;
 
-          // Get round the TypeScript filter union array by splitting or filters into two seperate calls and explicitely stating the type of item we expect to be here
+          if (!cookiesModeArr) return; // Avoid any undefined or empty arrays
+
+          // Get round the TypeScript filter union array bug by splitting our filters into two seperate calls via an if statement and explicitely stating the type of item we expect to be here
           if (mode === 'train') {
-            if (!cookiesModeArr) return;
-            cookieObj.favs[mode] = cookiesModeArr.filter((item: TrainEntity) => item.line !== id);
+            cookieObj.favs[mode] = cookiesModeArr.filter((item: TrainEntity) => item.line !== id); // Map filtered array back to our cookieObj
           } else {
-            if (!cookiesModeArr) return;
-            cookieObj.favs[mode] = cookiesModeArr.filter((item: string) => item !== id);
+            cookieObj.favs[mode] = cookiesModeArr.filter((item: string) => item !== id); // Map filtered array back to our cookieObj
           }
         });
 
-        const favStateString = JSON.stringify(cookieObj);
+        const favStateString = JSON.stringify(cookieObj); // Stringify our cookieObj
+        setCookie('disruptionsApp', favStateString, 181); // Set the cookie with our deleted services
 
-        setCookie('disruptionsApp', favStateString, 181);
-
-        return { ...state, previousFavs: { ...state.favs }, favsToRemoveOnSave: [] };
+        return { ...state, previousFavs: { ...state.favs }, favsToRemoveOnSave: [] }; // Set the previousFavs to our current favs (that we've removed) and reset favsToRemoveOnSave
       }
 
       default:
