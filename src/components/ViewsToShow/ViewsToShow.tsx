@@ -1,4 +1,4 @@
-import { hasAnyFavourites } from 'helpers/cookies/cookies';
+import { hasAnyFavourites } from 'helpers';
 import DefaultView from './DefaultView/DefaultView';
 import PersonalisedView from './PersonalisedView/PersonalisedView';
 
