@@ -11,7 +11,7 @@ import useFetchTrainStations from './useFetchTrainStations';
 
 const TrainRow = ({ favs }: TrainRowProps): JSX.Element => {
   const [, dispatch] = useContext(GlobalContext);
-  const { response, isFetching } = useFetchTrainStations(favs);
+  const { response, isFetching, hasError } = useFetchTrainStations(favs);
 
   useEffect(() => {
     if (response) {
@@ -37,7 +37,9 @@ const TrainRow = ({ favs }: TrainRowProps): JSX.Element => {
     }
   }, [dispatch, response]);
 
-  return <DisruptionRowContainer isFetching={isFetching} mode="train" />;
+  return (
+    <DisruptionRowContainer isFetching={isFetching} mode="train" hasError={hasError || !response} />
+  );
 };
 
 export default TrainRow;

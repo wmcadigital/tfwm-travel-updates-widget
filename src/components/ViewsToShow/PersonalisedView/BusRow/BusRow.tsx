@@ -11,7 +11,7 @@ import { BusRowProps, BusServicesAPI } from './types';
 
 const BusRow = ({ favs }: BusRowProps): JSX.Element => {
   const [, dispatch] = useContext(GlobalContext);
-  const { response, isFetching } = useFetch<BusServicesAPI>(`/bus/v1/service/${favs}`);
+  const { response, isFetching, hasError } = useFetch<BusServicesAPI>(`/bus/v1/service/${favs}`);
 
   useEffect(() => {
     if (response && response.services) {
@@ -38,7 +38,13 @@ const BusRow = ({ favs }: BusRowProps): JSX.Element => {
     }
   }, [dispatch, response]);
 
-  return <DisruptionRowContainer mode="bus" isFetching={isFetching} />;
+  return (
+    <DisruptionRowContainer
+      mode="bus"
+      isFetching={isFetching}
+      hasError={hasError || !response?.services}
+    />
+  );
 };
 
 export default BusRow;

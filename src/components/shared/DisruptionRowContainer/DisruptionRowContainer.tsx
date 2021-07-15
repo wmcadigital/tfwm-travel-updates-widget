@@ -12,21 +12,30 @@ import DisruptionIndicator from '../DisruptionIndicator/DisruptionIndicator';
 type DisruptionRowContainerProps = {
   mode: DefaultModes;
   isFetching: boolean;
+  hasError: boolean;
 };
 
-const DisruptionRowContainer = ({ mode, isFetching }: DisruptionRowContainerProps): JSX.Element => {
+const DisruptionRowContainer = ({
+  mode,
+  isFetching,
+  hasError,
+}: DisruptionRowContainerProps): JSX.Element => {
   const [state] = useContext(GlobalContext);
 
   return (
     <>
-      {(isFetching || state.favs[mode].length >= 1) && (
+      {(isFetching || state.favs[mode].length >= 1 || hasError) && (
         <>
           <div
             className={`wmnds-travel-update wmnds-travel-update--personal ${
               state.editMode && 'wmnds-travel-update--edit'
             }`}
           >
-            <PersonalRowTitle title={capitaliseFirstChar(mode)} isFetching={isFetching} />
+            <PersonalRowTitle
+              title={capitaliseFirstChar(mode)}
+              isFetching={isFetching}
+              hasError={hasError}
+            />
 
             {/* Loop through modes services and show a disruption indicator for them */}
             {!isFetching &&

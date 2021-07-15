@@ -11,7 +11,7 @@ import { TramStopsAPI, TramRowProps } from './types';
 
 const TramRow = ({ favs }: TramRowProps): JSX.Element => {
   const [, dispatch] = useContext(GlobalContext);
-  const { response, isFetching } = useFetch<TramStopsAPI>(`/metro/v2/stop/${favs}`);
+  const { response, isFetching, hasError } = useFetch<TramStopsAPI>(`/metro/v2/stop/${favs}`);
 
   useEffect(() => {
     if (response && response.metroStopsById) {
@@ -38,7 +38,13 @@ const TramRow = ({ favs }: TramRowProps): JSX.Element => {
     }
   }, [dispatch, response]);
 
-  return <DisruptionRowContainer mode="tram" isFetching={isFetching} />;
+  return (
+    <DisruptionRowContainer
+      mode="tram"
+      isFetching={isFetching}
+      hasError={hasError || !response?.metroStopsById}
+    />
+  );
 };
 
 export default TramRow;
