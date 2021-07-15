@@ -34,4 +34,14 @@ const hasAnyFavourites = (): boolean => {
   return modesWithFavourites > 0;
 };
 
-export { getDisruptionCookieData, getFavouritesFromCookies, hasAnyFavourites };
+const setCookie = (cname: string, cvalue: string, exdays: number): void => {
+  const env = process.env.NODE_ENV || 'developement';
+  const cookieDomain = 'tfwm.org.uk';
+  const d = new Date();
+  d.setTime(d.getTime() + exdays * 24 * 60 * 60 * 1000);
+  const expires = `expires=${d.toUTCString()}`;
+  const domain = env === 'development' ? 'domain=localhost' : `domain=.${cookieDomain}`;
+  document.cookie = `${cname}=${cvalue};${expires};${domain};path=/`;
+};
+
+export { getDisruptionCookieData, getFavouritesFromCookies, hasAnyFavourites, setCookie };

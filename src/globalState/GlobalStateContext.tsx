@@ -1,3 +1,5 @@
+import { getDisruptionCookieData, getFavouritesFromCookies, setCookie } from 'helpers';
+import { Favs, TrainEntity } from 'helpers/cookies/types';
 import { createContext } from 'preact';
 import { useReducer } from 'preact/hooks';
 import {
@@ -116,6 +118,29 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
         };
 
       case 'SAVE_NEW_STATE': {
+        const cookieObj = getDisruptionCookieData();
+
+        state.favsToRemoveOnSave.forEach(({ id, mode }) => {
+          if (!cookieObj || !cookieObj.favs) return; // No fav object in cookies, then escape out of function
+          const cookiesFavsObj = cookieObj.favs;
+
+          const cookiesModeArr = cookiesFavsObj[mode] as TrainEntity[] & string[]; // set as both because TypeScript has a bug with filtering union arrays
+          if (!cookiesModeArr) return;
+
+          // Get round the TypeScript filter union array by splitting or filters into two seperate calls and explicitely stating the type of item we expect to be here
+          if (mode === 'train') {
+            if (!cookiesModeArr) return;
+            cookieObj.favs[mode] = cookiesModeArr.filter((item: TrainEntity) => item.line !== id);
+          } else {
+            if (!cookiesModeArr) return;
+            cookieObj.favs[mode] = cookiesModeArr.filter((item: string) => item !== id);
+          }
+        });
+
+        const favStateString = JSON.stringify(cookieObj);
+
+        setCookie('disruptionsApp', favStateString, 181);
+
         return { ...state, previousFavs: { ...state.favs }, favsToRemoveOnSave: [] };
       }
 

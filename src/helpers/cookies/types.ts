@@ -4,10 +4,10 @@ export interface DisruptionFavs {
   favs: Favs | undefined;
 }
 export interface Favs {
-  bus?: string[] | null | undefined;
-  train?: TrainEntity[] | null | undefined;
-  tram?: string[] | null | undefined;
-  roads?: null[] | null | undefined;
+  bus?: string[] | undefined;
+  train?: TrainEntity[] | undefined;
+  tram?: string[] | undefined;
+  roads?: string[] | undefined;
 }
 export interface TrainEntity {
   from: string | undefined;
