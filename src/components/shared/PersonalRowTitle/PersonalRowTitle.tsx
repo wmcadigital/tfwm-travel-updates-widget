@@ -10,15 +10,14 @@ const PersonalRowTitle = ({ isFetching, hasError, title }: PersonalRowTitleProps
       <h3 className="wmnds-m-none">{title}</h3>
       {isFetching && <strong>Loading...</strong>}
     </div>
-    {hasError && (
-      <>
-        <span>
-          Apologies, we are having technical difficulties loading your {title.toLowerCase()} travel
-          updates.
-          <br />
-          Please try again later.
-        </span>
-      </>
+    {/* If error... */}
+    {!isFetching && hasError && (
+      <span>
+        Apologies, we are having technical difficulties loading your {title.toLowerCase()} travel
+        updates.
+        <br />
+        Please try again later.
+      </span>
     )}
   </>
 );

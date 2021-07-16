@@ -1,4 +1,4 @@
-import { getDisruptionCookieData, setCookie } from 'helpers';
+import { getDisruptionCookieData, hasAnyFavourites, setCookie } from 'helpers';
 import { TrainEntity } from 'helpers/cookies/types';
 import { createContext } from 'preact';
 import { useReducer } from 'preact/hooks';
@@ -18,6 +18,7 @@ export type FavsStateProps = {
 
 type InitialStateProps = {
   editMode: boolean;
+  hasFavs: boolean;
   favs: FavsStateProps;
   previousFavs: FavsStateProps;
   favsToRemoveOnSave: { mode: DefaultModes; id: string }[];
@@ -52,6 +53,7 @@ type ActionType =
 
 const initialState: InitialStateProps = {
   editMode: false,
+  hasFavs: hasAnyFavourites(),
   favs: {
     bus: [],
     tram: [],
@@ -139,7 +141,9 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
         const favStateString = JSON.stringify(cookieObj); // Stringify our cookieObj
         setCookie('disruptionsApp', favStateString, 181); // Set the cookie with our deleted services
 
-        return { ...state, previousFavs: { ...state.favs }, favsToRemoveOnSave: [] }; // Set the previousFavs to our current favs (that we've removed) and reset favsToRemoveOnSave
+        const hasFavs = hasAnyFavourites(); // After we've set the cookies, double check if we still have any favs (used in viewsToShow component to decide if to show personal or general view)
+
+        return { ...state, previousFavs: { ...state.favs }, favsToRemoveOnSave: [], hasFavs }; // Set the previousFavs to our current favs (that we've removed) and reset favsToRemoveOnSave
       }
 
       default:

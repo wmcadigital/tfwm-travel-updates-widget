@@ -9,9 +9,8 @@ const PersonalisedCTAButtons = (): JSX.Element => {
   const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
   const [state, dispatch] = useContext(GlobalContext);
 
-  const handleEditServicesClick = () => dispatch({ type: 'SET_EDIT_MODE', payload: true });
-
   const oldState = state.favs;
+  const handleEditServicesClick = () => dispatch({ type: 'SET_EDIT_MODE', payload: true });
 
   const handleCancelChanges = () => {
     dispatch({ type: 'SET_EDIT_MODE', payload: false });

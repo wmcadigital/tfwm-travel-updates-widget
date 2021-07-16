@@ -1,8 +1,10 @@
+// Helpers
 import { getFavouritesFromCookies } from 'helpers/cookies/cookies';
-import BusRow from './BusRow/BusRow';
+// Components
 import PersonalisedCTAButtons from './PersonalisedCTAButtons/PersonalisedCTAButtons';
-import TrainRow from './TrainRow/TrainRow';
+import BusRow from './BusRow/BusRow';
 import TramRow from './TramRow/TramRow';
+import TrainRow from './TrainRow/TrainRow';
 
 const PersonalisedView = (): JSX.Element => {
   const currentFavs = getFavouritesFromCookies();

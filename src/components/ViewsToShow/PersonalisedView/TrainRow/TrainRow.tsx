@@ -1,4 +1,4 @@
-import { useContext, useEffect } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 // Components
 import DisruptionRowContainer from 'components/shared/DisruptionRowContainer/DisruptionRowContainer';
 // State
@@ -11,11 +11,12 @@ import useFetchTrainStations from './useFetchTrainStations';
 
 const TrainRow = ({ favs }: TrainRowProps): JSX.Element => {
   const [, dispatch] = useContext(GlobalContext);
-  const { response, isFetching, hasError } = useFetchTrainStations(favs);
+  const [copiedFavs] = useState(favs); // Map favs to react state, if we pass it directly to useFetchTrainStations hook, it will cause unnecessary re-renders of the parent component, which then re-renders this component causing a loop
+  const { response, isFetching, hasError } = useFetchTrainStations(copiedFavs);
 
   useEffect(() => {
-    if (response) {
-      const data = response.map(
+    if (response && response.filteredData) {
+      const data = response?.filteredData.map(
         ({ id, lineId, disruptionSeverity, name }): DisruptionIndicatorTypes => ({
           id: lineId || '',
           disruptionSeverity,
@@ -38,7 +39,11 @@ const TrainRow = ({ favs }: TrainRowProps): JSX.Element => {
   }, [dispatch, response]);
 
   return (
-    <DisruptionRowContainer isFetching={isFetching} mode="train" hasError={hasError || !response} />
+    <DisruptionRowContainer
+      mode="train"
+      isFetching={isFetching}
+      hasError={hasError || !response?.filteredData}
+    />
   );
 };
 

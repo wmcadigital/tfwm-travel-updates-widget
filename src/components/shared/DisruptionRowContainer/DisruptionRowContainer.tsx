@@ -24,47 +24,43 @@ const DisruptionRowContainer = ({
 
   return (
     <>
-      {(isFetching || state.favs[mode].length >= 1 || hasError) && (
-        <>
-          <div
-            className={`wmnds-travel-update wmnds-travel-update--personal ${
-              state.editMode && 'wmnds-travel-update--edit'
-            }`}
-          >
-            <PersonalRowTitle
-              title={capitaliseFirstChar(mode)}
-              isFetching={isFetching}
-              hasError={hasError}
-            />
+      <div
+        className={`wmnds-travel-update wmnds-travel-update--personal ${
+          state?.editMode && 'wmnds-travel-update--edit'
+        }`}
+      >
+        <PersonalRowTitle
+          title={capitaliseFirstChar(mode)}
+          isFetching={isFetching}
+          hasError={hasError}
+        />
 
-            {/* Loop through modes services and show a disruption indicator for them */}
-            {!isFetching &&
-              state.favs[mode].map(
-                ({
-                  id,
-                  disruptionSeverity,
-                  disruptionUrlSearchParams,
-                  formatDisruptionIndicatorText,
-                  indicatorText,
-                  optionalText,
-                  modalIcon,
-                }) => (
-                  <DisruptionIndicator
-                    id={id}
-                    disruptionSeverity={disruptionSeverity}
-                    disruptionUrlSearchParams={disruptionUrlSearchParams}
-                    formatDisruptionIndicatorText={formatDisruptionIndicatorText}
-                    indicatorText={indicatorText}
-                    optionalText={optionalText}
-                    modalIcon={modalIcon}
-                    mode={mode}
-                  />
-                )
-              )}
-          </div>
-          <hr />
-        </>
-      )}
+        {/* Loop through modes services and show a disruption indicator for them */}
+        {!isFetching &&
+          state?.favs[mode].map(
+            ({
+              id,
+              disruptionSeverity,
+              disruptionUrlSearchParams,
+              formatDisruptionIndicatorText,
+              indicatorText,
+              optionalText,
+              modalIcon,
+            }) => (
+              <DisruptionIndicator
+                id={id}
+                disruptionSeverity={disruptionSeverity}
+                disruptionUrlSearchParams={disruptionUrlSearchParams}
+                formatDisruptionIndicatorText={formatDisruptionIndicatorText}
+                indicatorText={indicatorText}
+                optionalText={optionalText}
+                modalIcon={modalIcon}
+                mode={mode}
+              />
+            )
+          )}
+      </div>
+      <hr />
     </>
   );
 };

@@ -10,13 +10,14 @@ axios.defaults.baseURL = 'https://wmca-api-portal-staging.azure-api.net';
 axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': '0d4cca4a2c5d40c3bfbbfe45d1bbf294' };
 
 interface UseFetchReturn {
-  response: TypeOrNull<TrainStationAPIData[]>;
+  response: TypeOrNull<{ filteredData: TrainStationAPIData[] }>;
   isFetching: boolean;
   hasError: boolean;
 }
 
 const useFetchTrainStations = (favs: TrainEntity[]): UseFetchReturn => {
-  const [response, setResponse] = useState<TypeOrNull<TrainStationAPIData[]>>(null);
+  const [response, setResponse] =
+    useState<TypeOrNull<{ filteredData: TrainStationAPIData[] }>>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false); // Placeholder to set error messaging
 
@@ -38,30 +39,33 @@ const useFetchTrainStations = (favs: TrainEntity[]): UseFetchReturn => {
         return trainObj || null;
       })
       .catch(error => {
-        // eslint-disable-next-line no-console
-        console.error({ error });
-        setHasError(true);
+        throw new Error(error);
       });
 
   // START HERE
   useEffect(() => {
     if (!favs) return;
 
-    // Create a promise that resolves when all train fetches have resolved
-    Promise.all(favs.map(item => fetchData(item)))
-      .then(data => {
-        // Filter out any null or undefined
-        const filterData = data.filter(
-          trainStation => trainStation !== undefined && trainStation !== null
-        ) as TrainStationAPIData[]; // marking as DataEntity array as we have filtered out undefined and null items;
-        setResponse(filterData);
-      })
-      .catch(error => {
-        // eslint-disable-next-line no-console
-        console.error({ error });
-        setHasError(true);
-      })
-      .finally(() => setIsFetching(false));
+    const resolvePromises = () => {
+      // Create a promise that resolves when all train fetches have resolved
+      const fetchFavs = favs.map(trainFav => fetchData(trainFav));
+      Promise.all(fetchFavs)
+        .then(data => {
+          // Filter out any null or undefined
+          const filteredData = data.filter(
+            trainStation => trainStation !== undefined && trainStation !== null
+          ); // marking as DataEntity array as we have filtered out undefined and null items;
+          setResponse({ filteredData } as unknown as { filteredData: TrainStationAPIData[] });
+        })
+        .catch(error => {
+          // eslint-disable-next-line no-console
+          console.error({ error });
+          setHasError(true);
+        })
+        .finally(() => setIsFetching(false));
+    };
+
+    resolvePromises();
   }, [favs]);
 
   return { response, isFetching, hasError };
