@@ -1,5 +1,7 @@
-import { GlobalContext } from 'globalState/GlobalStateContext';
 import { useContext } from 'preact/hooks';
+// State
+import { GlobalContext } from 'globalState/GlobalStateContext';
+// Components
 import DefaultView from './DefaultView/DefaultView';
 import PersonalisedView from './PersonalisedView/PersonalisedView';
 

@@ -1,6 +1,6 @@
 import { useContext } from 'preact/hooks';
 // Helpers
-import { capitaliseFirstChar } from 'helpers';
+import { capitaliseFirstChar } from 'sharedHelpers';
 // State
 import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types

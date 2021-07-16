@@ -1,6 +1,9 @@
+// Components
 import Icon from 'components/shared/Icon/Icon';
-import { capitaliseFirstChar } from 'helpers';
-import { correctModalIcon, disruptionIconToShow } from './ModalRow.helper';
+// Helpers
+import { capitaliseFirstChar } from 'sharedHelpers';
+import { correctModalIcon, disruptionIconToShow } from './helpers';
+// Types
 import { ModalRowProps } from './types';
 
 const ModalRow = ({ isFetching, response, mode }: ModalRowProps): JSX.Element => {

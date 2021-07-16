@@ -1,4 +1,5 @@
-import { TrainEntity } from 'helpers/cookies/types';
+// Types
+import { TrainEntity } from 'sharedHelpers/cookies/types';
 import { DisruptionSeverity } from 'sharedTypes';
 
 export type TrainRowProps = {

@@ -1,7 +1,9 @@
-import { getDisruptionCookieData, hasAnyFavourites, setCookie } from 'helpers';
-import { TrainEntity } from 'helpers/cookies/types';
 import { createContext } from 'preact';
 import { useReducer } from 'preact/hooks';
+// Helpers
+import { getDisruptionCookieData, hasAnyFavourites, setCookie } from 'sharedHelpers';
+// Types
+import { TrainEntity } from 'sharedHelpers/cookies/types';
 import {
   ContextProviderProps,
   CreateContextProps,

@@ -1,4 +1,6 @@
+// Components
 import Link from 'components/shared/Link/Link';
+// Types
 import { JSXInternal } from 'preact/src/jsx';
 import { DefaultModes, TransformedModes } from 'sharedTypes';
 

@@ -1,5 +1,5 @@
 // Helpers
-import { getFavouritesFromCookies } from 'helpers/cookies/cookies';
+import { getFavouritesFromCookies } from 'sharedHelpers/cookies/cookies';
 // Components
 import PersonalisedCTAButtons from './PersonalisedCTAButtons/PersonalisedCTAButtons';
 import BusRow from './BusRow/BusRow';

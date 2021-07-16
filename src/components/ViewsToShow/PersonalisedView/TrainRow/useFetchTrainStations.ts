@@ -2,7 +2,7 @@ import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
 // Types
 import { TypeOrNull } from 'sharedTypes';
-import { TrainEntity } from 'helpers/cookies/types';
+import { TrainEntity } from 'sharedHelpers/cookies/types';
 import { TrainStationAPIData, TrainStationAPI } from './types';
 
 // Axios config

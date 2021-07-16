@@ -1,3 +1,4 @@
+// Types
 import { DisruptionFavs, Favs } from './types';
 
 const getDisruptionCookieData = (): DisruptionFavs | undefined => {

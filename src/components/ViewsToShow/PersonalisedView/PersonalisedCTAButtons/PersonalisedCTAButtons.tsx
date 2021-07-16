@@ -1,39 +1,30 @@
-import { useContext } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 import Link from 'components/shared/Link/Link';
-// State
-import { GlobalContext } from 'globalState/GlobalStateContext';
+// CustomHooks
+import usePersonalisedCTAButtons from './usePersonalisedCTAButtons';
 
 const PersonalisedCTAButtons = (): JSX.Element => {
-  const disruptionsLink = '//disruptions.tfwm.org.uk/?when=now&amp;isMapVisible=false';
-  const [state, dispatch] = useContext(GlobalContext);
-
-  const oldState = state.favs;
-  const handleEditServicesClick = () => dispatch({ type: 'SET_EDIT_MODE', payload: true });
-
-  const handleCancelChanges = () => {
-    dispatch({ type: 'SET_EDIT_MODE', payload: false });
-    dispatch({ type: 'CANCEL_STATE', payload: oldState });
-  };
-
-  const handleSaveChanges = () => {
-    dispatch({ type: 'SET_EDIT_MODE', payload: false });
-    dispatch({ type: 'SAVE_NEW_STATE' });
-  };
+  const {
+    disruptionsLink,
+    editMode,
+    handleEditServicesClick,
+    handleSaveChanges,
+    handleCancelChanges,
+  } = usePersonalisedCTAButtons();
 
   return (
     <div className="wmnds-grid wmnds-grid--spacing-sm-2-lg wmnds-p-t-md">
       {/* Add services button */}
       <div className="wmnds-col-1 wmnds-col-sm-1-2">
-        {!state.editMode ? (
+        {!editMode ? (
           <button
             className="wmnds-btn wmnds-btn--mode wmnds-btn--block wmnds-m-b-md"
             type="button"
             data-btn-name="edit-services"
             onClick={handleEditServicesClick}
           >
-            Edit your services {state.editMode}
+            Edit your services {editMode}
           </button>
         ) : (
           <button
@@ -47,7 +38,7 @@ const PersonalisedCTAButtons = (): JSX.Element => {
       </div>
       {/* View all updates button */}
       <div className="wmnds-col-1 wmnds-col-sm-1-2">
-        {!state.editMode ? (
+        {!editMode ? (
           <Link className="wmnds-btn wmnds-btn--block" href={disruptionsLink} isButton>
             View all updates
             <Icon

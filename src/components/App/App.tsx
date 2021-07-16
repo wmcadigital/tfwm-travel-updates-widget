@@ -1,4 +1,6 @@
+// Components
 import ViewsToShow from 'components/ViewsToShow/ViewsToShow';
+// Context Wrapper
 import { GlobalContextProvider } from 'globalState/GlobalStateContext';
 
 const App = (): JSX.Element => (

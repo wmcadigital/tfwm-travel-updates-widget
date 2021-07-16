@@ -1,3 +1,4 @@
+// Types
 import { TransformedModes } from 'sharedTypes';
 import { DefaultModes } from './modes';
 

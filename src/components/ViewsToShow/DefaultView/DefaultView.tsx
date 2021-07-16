@@ -1,6 +1,9 @@
+// CustomHooks
 import useFetch from 'customHooks/useFetch';
+// Components
 import CTAButtons from './CTAButtons/CTAButtons';
 import ModalRow from './ModalRow/ModalRow';
+// Types
 import ResponseOrNull from './types';
 
 const DefaultView = (): JSX.Element => {
