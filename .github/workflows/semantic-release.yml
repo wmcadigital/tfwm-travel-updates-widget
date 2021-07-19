@@ -45,7 +45,7 @@ jobs:
       - name: Build site
         run: |
           npm ci
-          VERSION_NUMBER=$VERSION_NUMBER npm run build:all
+          npm run build
         env:
           VERSION_NUMBER: ${{ steps.dry_release.outputs.new_release_version }}
       # Publish the release IF the version number is being changed

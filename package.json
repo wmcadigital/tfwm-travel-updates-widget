@@ -1,6 +1,18 @@
 {
-  "name": "wmn-travel-updates-widget",
+  "name": "@wmcadigital/tfwm-travel-updates-widget",
   "version": "0.1.0",
+  "description": "",
+  "homepage": "https://tfwm.org.uk",
+  "author": "WMCA",
+  "copyright": "WMCA",
+  "main": "build/static/js/build.min.js",
+  "repository": "wmcadigital/wmn-travel-updates-widget",
+  "keywords": [
+    "travel",
+    "transport",
+    "west midlands",
+    "disruptions"
+  ],
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
