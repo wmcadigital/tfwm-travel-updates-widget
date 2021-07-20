@@ -6,13 +6,23 @@
   "author": "WMCA",
   "copyright": "WMCA",
   "main": "build/static/js/build.min.js",
-  "repository": "wmcadigital/wmn-travel-updates-widget",
+  "repository": "wmcadigital/tfwm-travel-updates-widget",
   "keywords": [
     "travel",
     "transport",
     "west midlands",
     "disruptions"
   ],
+  "release": {
+    "plugins": [
+      "@semantic-release/commit-analyzer",
+      "@semantic-release/release-notes-generator",
+      "@semantic-release/changelog",
+      "@semantic-release/npm",
+      "@semantic-release/git",
+      "@semantic-release/github"
+    ]
+  },
   "dependencies": {
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
@@ -37,7 +47,8 @@
     "eslint-plugin-prettier": "^3.4.0",
     "npm-check-updates": "^11.8.1",
     "prettier": "^2.3.2",
-    "react-app-rewired": "^2.1.8"
+    "react-app-rewired": "^2.1.8",
+    "semantic-release": "^17.4.4"
   },
   "scripts": {
     "start": "react-app-rewired start",
