@@ -24,10 +24,10 @@ const DisruptionRowContainer = ({
     <>
       <div
         className={`wmnds-travel-update wmnds-travel-update--personal ${
-          state?.editMode && 'wmnds-travel-update--edit'
+          state?.editMode ? 'wmnds-travel-update--edit' : ''
         }`}
       >
-        <PersonalRowTitle title={mode} isFetching={isFetching} hasError={hasError} />
+        <PersonalRowTitle mode={mode} isFetching={isFetching} hasError={hasError} />
 
         {/* Loop through modes services and show a disruption indicator for them */}
         {!isFetching &&

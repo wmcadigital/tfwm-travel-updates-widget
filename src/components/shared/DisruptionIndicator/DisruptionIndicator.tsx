@@ -1,4 +1,4 @@
-import { useContext } from 'preact/hooks';
+import { useContext, useState } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 // State
@@ -27,6 +27,7 @@ const DisruptionIndicator = ({
   optionalText,
 }: DisruptionIndicatorProps): JSX.Element => {
   const [{ editMode }, dispatch] = useContext(GlobalContext);
+  const [toggleState, setToggleState] = useState(false);
   const severity = getSeverityVars(disruptionSeverity);
 
   const disruptionText = disruptionTextElementToShow(severity.text, disruptionUrlSearchParams);
@@ -41,12 +42,17 @@ const DisruptionIndicator = ({
     });
   };
 
+  const handleToggleIndicator = () => {
+    setToggleState(state => !state);
+  };
+
   return (
     <div className="wmnds-travel-update__disruption">
       <button
         type="button"
         className="wmnds-travel-update__disruption-indicator-btn"
-        aria-expanded="false"
+        aria-expanded={toggleState}
+        onClick={handleToggleIndicator}
       >
         <div
           className={`wmnds-disruption-indicator-medium wmnds-disruption-indicator-medium--with-icon wmnds-disruption-indicator-medium--narrow

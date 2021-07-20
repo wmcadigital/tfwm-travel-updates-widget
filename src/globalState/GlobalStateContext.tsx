@@ -20,6 +20,12 @@ export type FavsStateProps = {
 
 type InitialStateProps = {
   editMode: boolean;
+  rowVisibleOnMobile: {
+    bus: boolean;
+    tram: boolean;
+    train: boolean;
+    roads: boolean;
+  };
   hasFavs: boolean;
   favs: FavsStateProps;
   previousFavs: FavsStateProps;
@@ -55,6 +61,12 @@ type ActionType =
 
 const initialState: InitialStateProps = {
   editMode: false,
+  rowVisibleOnMobile: {
+    bus: false,
+    tram: false,
+    train: false,
+    roads: false,
+  },
   hasFavs: hasAnyFavourites(),
   favs: {
     bus: [],

@@ -1,4 +1,6 @@
 // Helpers
+import { GlobalContext } from 'globalState/GlobalStateContext';
+import { useContext } from 'preact/hooks';
 import { capitaliseFirstChar } from 'sharedHelpers';
 // Types
 import { DefaultModes } from 'sharedTypes';
@@ -8,33 +10,42 @@ import Icon from '../Icon/Icon';
 type PersonalRowTitleProps = {
   isFetching: boolean;
   hasError: boolean;
-  title: DefaultModes;
+  mode: DefaultModes;
 };
 
-const PersonalRowTitle = ({ isFetching, hasError, title }: PersonalRowTitleProps): JSX.Element => (
-  <>
-    <div className="wmnds-travel-update__disruption-title">
-      <h3 className="wmnds-m-none">{capitaliseFirstChar(title)}</h3>
-      {isFetching && <strong>Loading...</strong>}
+const PersonalRowTitle = ({ isFetching, hasError, mode }: PersonalRowTitleProps): JSX.Element => {
+  const [state, dispatch] = useContext(GlobalContext);
 
-      <button
-        type="button"
-        className="wmnds-travel-update__disruption-detail-toggle"
-        data-show-details="false"
-      >
-        <Icon iconName="general-chevron-right" />
-      </button>
-    </div>
-    {/* If error... */}
-    {!isFetching && hasError && (
-      <span>
-        Apologies, we are having technical difficulties loading your {title.toLowerCase()} travel
-        updates.
-        <br />
-        Please try again later.
-      </span>
-    )}
-  </>
-);
+  const toggleRowVisibility = () => {
+    // dispatch();
+  };
+
+  return (
+    <>
+      <div className="wmnds-travel-update__disruption-title">
+        <h3 className="wmnds-m-none">{capitaliseFirstChar(mode)}</h3>
+        {isFetching && <strong>Loading...</strong>}
+
+        <button
+          type="button"
+          className="wmnds-travel-update__disruption-detail-toggle"
+          data-show-details={state.rowVisibleOnMobile[mode]}
+          onClick={toggleRowVisibility}
+        >
+          <Icon iconName="general-chevron-right" />
+        </button>
+      </div>
+      {/* If error... */}
+      {!isFetching && hasError && (
+        <span>
+          Apologies, we are having technical difficulties loading your {mode.toLowerCase()} travel
+          updates.
+          <br />
+          Please try again later.
+        </span>
+      )}
+    </>
+  );
+};
 
 export default PersonalRowTitle;
