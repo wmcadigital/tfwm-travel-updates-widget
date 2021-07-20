@@ -37,7 +37,8 @@
     "eslint-plugin-prettier": "^3.4.0",
     "npm-check-updates": "^11.8.1",
     "prettier": "^2.3.2",
-    "react-app-rewired": "^2.1.8"
+    "react-app-rewired": "^2.1.8",
+    "semantic-release": "^17.4.4"
   },
   "scripts": {
     "start": "react-app-rewired start",
