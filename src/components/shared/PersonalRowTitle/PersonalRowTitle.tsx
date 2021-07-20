@@ -17,7 +17,10 @@ const PersonalRowTitle = ({ isFetching, hasError, mode }: PersonalRowTitleProps)
   const [state, dispatch] = useContext(GlobalContext);
 
   const toggleRowVisibility = () => {
-    // dispatch();
+    dispatch({
+      type: 'TOGGLE_ROW_VISIBILITY',
+      payload: { mode, visible: !state.isRowExpandedOnMobile[mode] },
+    });
   };
 
   return (
@@ -29,7 +32,7 @@ const PersonalRowTitle = ({ isFetching, hasError, mode }: PersonalRowTitleProps)
         <button
           type="button"
           className="wmnds-travel-update__disruption-detail-toggle"
-          data-show-details={state.rowVisibleOnMobile[mode]}
+          data-show-details={`${!!state.isRowExpandedOnMobile[mode]}`}
           onClick={toggleRowVisibility}
         >
           <Icon iconName="general-chevron-right" />

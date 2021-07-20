@@ -20,7 +20,7 @@ export type FavsStateProps = {
 
 type InitialStateProps = {
   editMode: boolean;
-  rowVisibleOnMobile: {
+  isRowExpandedOnMobile: {
     bus: boolean;
     tram: boolean;
     train: boolean;
@@ -36,6 +36,10 @@ type ActionType =
   | {
       type: 'SET_EDIT_MODE';
       payload: boolean;
+    }
+  | {
+      type: 'TOGGLE_ROW_VISIBILITY';
+      payload: { mode: DefaultModes; visible: boolean };
     }
   | {
       type: 'UPDATE_SERVICES';
@@ -61,7 +65,7 @@ type ActionType =
 
 const initialState: InitialStateProps = {
   editMode: false,
-  rowVisibleOnMobile: {
+  isRowExpandedOnMobile: {
     bus: false,
     tram: false,
     train: false,
@@ -96,6 +100,18 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
           ...state,
           editMode: action.payload,
         };
+
+      case 'TOGGLE_ROW_VISIBILITY': {
+        const { mode, visible } = action.payload;
+
+        return {
+          ...state,
+          isRowExpandedOnMobile: {
+            ...state.isRowExpandedOnMobile,
+            [mode]: visible,
+          },
+        };
+      }
 
       case 'UPDATE_SERVICES': {
         const { mode, data } = action.payload;
