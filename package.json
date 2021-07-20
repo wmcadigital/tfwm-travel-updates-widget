@@ -1,6 +1,6 @@
 {
   "name": "tfwm-travel-updates-widget",
-  "version": "0.1.0",
+  "version": "0.0.0--dev",
   "description": "A shareable travel updates (disruptions) widget which is shown on the TfWM homepage",
   "homepage": "https://tfwm.org.uk",
   "author": "WMCA",
