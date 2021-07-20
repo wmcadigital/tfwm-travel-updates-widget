@@ -1,6 +1,4 @@
 import { useContext } from 'preact/hooks';
-// Helpers
-import { capitaliseFirstChar } from 'sharedHelpers';
 // State
 import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
@@ -29,11 +27,7 @@ const DisruptionRowContainer = ({
           state?.editMode && 'wmnds-travel-update--edit'
         }`}
       >
-        <PersonalRowTitle
-          title={capitaliseFirstChar(mode)}
-          isFetching={isFetching}
-          hasError={hasError}
-        />
+        <PersonalRowTitle title={mode} isFetching={isFetching} hasError={hasError} />
 
         {/* Loop through modes services and show a disruption indicator for them */}
         {!isFetching &&
