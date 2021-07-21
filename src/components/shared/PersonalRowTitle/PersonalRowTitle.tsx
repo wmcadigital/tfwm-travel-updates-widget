@@ -1,6 +1,6 @@
 // Helpers
 import { GlobalContext } from 'globalState/GlobalStateContext';
-import { useContext } from 'preact/hooks';
+import { StateUpdater, useContext, useEffect } from 'preact/hooks';
 import { capitaliseFirstChar } from 'sharedHelpers';
 // Types
 import { DefaultModes } from 'sharedTypes';
@@ -9,20 +9,24 @@ import Icon from '../Icon/Icon';
 
 type PersonalRowTitleProps = {
   isFetching: boolean;
+  isRowOpen: boolean | 'all';
+  setIsRowOpen: StateUpdater<boolean | 'all'>;
   hasError: boolean;
   mode: DefaultModes;
 };
 
-const PersonalRowTitle = ({ isFetching, hasError, mode }: PersonalRowTitleProps): JSX.Element => {
+const PersonalRowTitle = ({
+  isFetching,
+  isRowOpen,
+  setIsRowOpen,
+  hasError,
+  mode,
+}: PersonalRowTitleProps): JSX.Element => {
   const [state, dispatch] = useContext(GlobalContext);
 
   const toggleRowVisibility = () => {
-    dispatch({
-      type: 'TOGGLE_ROW_VISIBILITY',
-      payload: { mode, visible: !state.isRowExpandedOnMobile[mode] },
-    });
+    setIsRowOpen(prevState => (prevState === 'all' || prevState ? false : 'all'));
   };
-
   return (
     <>
       <div className="wmnds-travel-update__disruption-title">
@@ -32,7 +36,7 @@ const PersonalRowTitle = ({ isFetching, hasError, mode }: PersonalRowTitleProps)
         <button
           type="button"
           className="wmnds-travel-update__disruption-detail-toggle"
-          data-show-details={`${!!state.isRowExpandedOnMobile[mode]}`}
+          data-show-details={`${isRowOpen}`}
           onClick={toggleRowVisibility}
         >
           <Icon iconName="general-chevron-right" />

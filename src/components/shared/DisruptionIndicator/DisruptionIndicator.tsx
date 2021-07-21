@@ -1,4 +1,5 @@
-import { useContext, useState } from 'preact/hooks';
+/* eslint-disable react/default-props-match-prop-types */
+import { StateUpdater, useContext, useEffect, useState } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 // State
@@ -9,6 +10,15 @@ import { DisruptionIndicatorTypes } from 'sharedTypes';
 import { disruptionTextElementToShow, getSeverityVars } from './helpers';
 
 type DisruptionIndicatorProps = DisruptionIndicatorTypes & typeof defaultProps;
+
+type VisibleDisruptionIndicatorsProps = { id: string; visible: boolean };
+
+type NewProps = DisruptionIndicatorProps & {
+  setVisibleDisruptionIndicators: StateUpdater<VisibleDisruptionIndicatorsProps[]>;
+  visibleDisruptionIndicators: VisibleDisruptionIndicatorsProps[];
+  isRowOpen: boolean | 'all';
+  setIsRowOpen: StateUpdater<boolean | 'all'>;
+};
 
 const defaultProps = {
   disruptionUrlSearchParams: '',
@@ -25,9 +35,13 @@ const DisruptionIndicator = ({
   mode,
   modalIcon,
   optionalText,
-}: DisruptionIndicatorProps): JSX.Element => {
-  const [{ editMode }, dispatch] = useContext(GlobalContext);
-  const [toggleState, setToggleState] = useState(false);
+  setVisibleDisruptionIndicators,
+  visibleDisruptionIndicators,
+  isRowOpen,
+  setIsRowOpen,
+}: NewProps): JSX.Element => {
+  const [{ editMode, isRowExpandedOnMobile }, dispatch] = useContext(GlobalContext);
+  // const [toggleState, setToggleState] = useState(false);
   const severity = getSeverityVars(disruptionSeverity);
 
   const disruptionText = disruptionTextElementToShow(severity.text, disruptionUrlSearchParams);
@@ -42,16 +56,46 @@ const DisruptionIndicator = ({
     });
   };
 
+  const filteredItem = visibleDisruptionIndicators.filter(items => items.id === id);
+
+  // setVisibleDisruptionIndicators(prevState => [...prevState, id]);
+
   const handleToggleIndicator = () => {
-    setToggleState(state => !state);
+    // if (visibleDisruptionIndicators.includes(id)) {
+    //   setVisibleDisruptionIndicators(state => state.filter(item => item.id !== id));
+    // } else {
+    //   setVisibleDisruptionIndicators(state => [...state, id]);
+    // }
+
+    setVisibleDisruptionIndicators(prevState => {
+      const newArr = prevState.map(item => {
+        if (item.id === id) return { ...item, visible: !item.visible };
+        return item;
+      });
+
+      return newArr;
+    });
+
+    const mapArr = visibleDisruptionIndicators.filter(item => !item.visible);
+
+    setIsRowOpen(true);
   };
+
+  useEffect(() => {
+    const mapArr = visibleDisruptionIndicators.filter(item => item.visible);
+
+    console.log(mapArr.length);
+    if (mapArr.length === 0 && isRowOpen === true) setIsRowOpen(false);
+  }, [isRowOpen, setIsRowOpen, visibleDisruptionIndicators]);
 
   return (
     <div className="wmnds-travel-update__disruption">
       <button
         type="button"
         className="wmnds-travel-update__disruption-indicator-btn"
-        aria-expanded={toggleState}
+        aria-expanded={
+          isRowOpen === 'all' || (isRowOpen === true && filteredItem[0] && filteredItem[0].visible)
+        }
         onClick={handleToggleIndicator}
       >
         <div

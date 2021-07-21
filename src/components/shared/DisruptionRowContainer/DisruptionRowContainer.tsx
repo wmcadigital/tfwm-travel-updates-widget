@@ -1,4 +1,4 @@
-import { useContext } from 'preact/hooks';
+import { useContext, useEffect, useState } from 'preact/hooks';
 // State
 import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
@@ -13,6 +13,8 @@ type DisruptionRowContainerProps = {
   hasError: boolean;
 };
 
+type VisibleDisruptionIndicatorsProps = { id: string; visible: boolean };
+
 const DisruptionRowContainer = ({
   mode,
   isFetching,
@@ -20,6 +22,25 @@ const DisruptionRowContainer = ({
 }: DisruptionRowContainerProps): JSX.Element => {
   const [state] = useContext(GlobalContext);
 
+  const [visibleDisruptionIndicators, setVisibleDisruptionIndicators] = useState<
+    VisibleDisruptionIndicatorsProps[]
+  >([]);
+  const [isRowOpen, setIsRowOpen] = useState<boolean | 'all'>(false);
+
+  useEffect(() => {
+    if (!isFetching) {
+      const arr = state?.favs[mode].map(({ id }) => ({ id, visible: false }));
+      setVisibleDisruptionIndicators(arr);
+    }
+  }, [isFetching, mode, state?.favs]);
+
+  // useEffect(() => {
+  //   const mapArr = visibleDisruptionIndicators.map(item => !item.visible);
+  //   console.log({ mapArr });
+  //   if (mapArr.length === 0) {
+  //     setIsRowOpen(false);
+  //   }
+  // }, [visibleDisruptionIndicators]);
   return (
     <>
       <div
@@ -27,7 +48,13 @@ const DisruptionRowContainer = ({
           state?.editMode ? 'wmnds-travel-update--edit' : ''
         }`}
       >
-        <PersonalRowTitle mode={mode} isFetching={isFetching} hasError={hasError} />
+        <PersonalRowTitle
+          mode={mode}
+          isFetching={isFetching}
+          hasError={hasError}
+          isRowOpen={isRowOpen}
+          setIsRowOpen={setIsRowOpen}
+        />
 
         {/* Loop through modes services and show a disruption indicator for them */}
         {!isFetching &&
@@ -50,6 +77,10 @@ const DisruptionRowContainer = ({
                 optionalText={optionalText}
                 modalIcon={modalIcon}
                 mode={mode}
+                setVisibleDisruptionIndicators={setVisibleDisruptionIndicators}
+                visibleDisruptionIndicators={visibleDisruptionIndicators}
+                isRowOpen={isRowOpen}
+                setIsRowOpen={setIsRowOpen}
               />
             )
           )}
