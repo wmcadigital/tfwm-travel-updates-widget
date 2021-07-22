@@ -34,13 +34,29 @@ const DisruptionRowContainer = ({
     }
   }, [isFetching, mode, state?.favs]);
 
-  // useEffect(() => {
-  //   const mapArr = visibleDisruptionIndicators.map(item => !item.visible);
-  //   console.log({ mapArr });
-  //   if (mapArr.length === 0) {
-  //     setIsRowOpen(false);
-  //   }
-  // }, [visibleDisruptionIndicators]);
+  // Run everytime the disruptionIndicators changes state
+  useEffect(() => {
+    const mapArr = visibleDisruptionIndicators.filter(item => item.visible); // Loop through all disruption indicators and only return the visible ones
+
+    if (mapArr.length === 0) setIsRowOpen(false); // If there are no visible ones, then the isRowOpen toggle button needs to be set to false
+    if (mapArr.length > 0) setIsRowOpen(true); // Otherwise set it to true (open)
+  }, [setIsRowOpen, visibleDisruptionIndicators]);
+
+  // Run everytime the isRowOpen button changes state
+  useEffect(() => {
+    // Function to set all disruption indicators of a row to visible or not
+    const setVisibilityOfAllInidicators = (visible: boolean) => {
+      setVisibleDisruptionIndicators(prevState => {
+        const newArr = prevState.map(item => ({ ...item, visible }));
+
+        return newArr;
+      });
+    };
+
+    if (isRowOpen === 'all') setVisibilityOfAllInidicators(true); // If isRowOpen is all then we need to show everything so set visible to true
+    if (!isRowOpen) setVisibilityOfAllInidicators(false); // Otherwise if the row isn't open, then we need to set all indicators to not show
+  }, [isRowOpen, setVisibleDisruptionIndicators]);
+
   return (
     <>
       <div
@@ -80,7 +96,7 @@ const DisruptionRowContainer = ({
                 setVisibleDisruptionIndicators={setVisibleDisruptionIndicators}
                 visibleDisruptionIndicators={visibleDisruptionIndicators}
                 isRowOpen={isRowOpen}
-                setIsRowOpen={setIsRowOpen}
+                // setIsRowOpen={setIsRowOpen}
               />
             )
           )}

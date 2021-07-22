@@ -1,6 +1,5 @@
 // Helpers
-import { GlobalContext } from 'globalState/GlobalStateContext';
-import { StateUpdater, useContext, useEffect } from 'preact/hooks';
+import { StateUpdater } from 'preact/hooks';
 import { capitaliseFirstChar } from 'sharedHelpers';
 // Types
 import { DefaultModes } from 'sharedTypes';
@@ -22,8 +21,6 @@ const PersonalRowTitle = ({
   hasError,
   mode,
 }: PersonalRowTitleProps): JSX.Element => {
-  const [state, dispatch] = useContext(GlobalContext);
-
   const toggleRowVisibility = () => {
     setIsRowOpen(prevState => (prevState === 'all' || prevState ? false : 'all'));
   };
@@ -33,14 +30,16 @@ const PersonalRowTitle = ({
         <h3 className="wmnds-m-none">{capitaliseFirstChar(mode)}</h3>
         {isFetching && <strong>Loading...</strong>}
 
-        <button
-          type="button"
-          className="wmnds-travel-update__disruption-detail-toggle"
-          data-show-details={`${isRowOpen}`}
-          onClick={toggleRowVisibility}
-        >
-          <Icon iconName="general-chevron-right" />
-        </button>
+        {!isFetching && !hasError && (
+          <button
+            type="button"
+            className="wmnds-travel-update__disruption-detail-toggle"
+            data-show-details={`${isRowOpen}`}
+            onClick={toggleRowVisibility}
+          >
+            <Icon iconName="general-chevron-right" />
+          </button>
+        )}
       </div>
       {/* If error... */}
       {!isFetching && hasError && (

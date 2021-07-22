@@ -1,5 +1,5 @@
 /* eslint-disable react/default-props-match-prop-types */
-import { StateUpdater, useContext, useEffect, useState } from 'preact/hooks';
+import { StateUpdater, useContext } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
 // State
@@ -17,7 +17,6 @@ type NewProps = DisruptionIndicatorProps & {
   setVisibleDisruptionIndicators: StateUpdater<VisibleDisruptionIndicatorsProps[]>;
   visibleDisruptionIndicators: VisibleDisruptionIndicatorsProps[];
   isRowOpen: boolean | 'all';
-  setIsRowOpen: StateUpdater<boolean | 'all'>;
 };
 
 const defaultProps = {
@@ -38,10 +37,8 @@ const DisruptionIndicator = ({
   setVisibleDisruptionIndicators,
   visibleDisruptionIndicators,
   isRowOpen,
-  setIsRowOpen,
 }: NewProps): JSX.Element => {
-  const [{ editMode, isRowExpandedOnMobile }, dispatch] = useContext(GlobalContext);
-  // const [toggleState, setToggleState] = useState(false);
+  const [{ editMode }, dispatch] = useContext(GlobalContext);
   const severity = getSeverityVars(disruptionSeverity);
 
   const disruptionText = disruptionTextElementToShow(severity.text, disruptionUrlSearchParams);
@@ -58,44 +55,25 @@ const DisruptionIndicator = ({
 
   const filteredItem = visibleDisruptionIndicators.filter(items => items.id === id);
 
-  // setVisibleDisruptionIndicators(prevState => [...prevState, id]);
-
   const handleToggleIndicator = () => {
-    // if (visibleDisruptionIndicators.includes(id)) {
-    //   setVisibleDisruptionIndicators(state => state.filter(item => item.id !== id));
-    // } else {
-    //   setVisibleDisruptionIndicators(state => [...state, id]);
-    // }
-
     setVisibleDisruptionIndicators(prevState => {
+      // Loop through all items
       const newArr = prevState.map(item => {
+        // When we find the one that we clicked, then toggle its visibility state
         if (item.id === id) return { ...item, visible: !item.visible };
-        return item;
+        return item; // If it's not our item, just return it
       });
 
       return newArr;
     });
-
-    const mapArr = visibleDisruptionIndicators.filter(item => !item.visible);
-
-    setIsRowOpen(true);
   };
-
-  useEffect(() => {
-    const mapArr = visibleDisruptionIndicators.filter(item => item.visible);
-
-    console.log(mapArr.length);
-    if (mapArr.length === 0 && isRowOpen === true) setIsRowOpen(false);
-  }, [isRowOpen, setIsRowOpen, visibleDisruptionIndicators]);
 
   return (
     <div className="wmnds-travel-update__disruption">
       <button
         type="button"
         className="wmnds-travel-update__disruption-indicator-btn"
-        aria-expanded={
-          isRowOpen === 'all' || (isRowOpen === true && filteredItem[0] && filteredItem[0].visible)
-        }
+        aria-expanded={isRowOpen && filteredItem[0] && filteredItem[0].visible}
         onClick={handleToggleIndicator}
       >
         <div
