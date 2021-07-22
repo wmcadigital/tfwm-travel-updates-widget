@@ -1,5 +1,7 @@
-import { GlobalContext } from 'globalState/GlobalStateContext';
 import { StateUpdater, useContext } from 'preact/hooks';
+// State
+import { GlobalContext } from 'globalState/GlobalStateContext';
+// Types
 import { DefaultModes, VisibleDisruptionIndicators } from 'sharedTypes';
 
 type UseDisruptionIndicatorReturn = {
