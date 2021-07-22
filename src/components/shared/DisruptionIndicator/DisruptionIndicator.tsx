@@ -1,13 +1,12 @@
 /* eslint-disable react/default-props-match-prop-types */
-import { StateUpdater, useContext } from 'preact/hooks';
+import { StateUpdater } from 'preact/hooks';
 // Components
 import Icon from 'components/shared/Icon/Icon';
-// State
-import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
 import { DisruptionIndicatorTypes, IsRowOpen, VisibleDisruptionIndicators } from 'sharedTypes';
 // Helper funcs
 import { disruptionTextElementToShow, getSeverityVars } from './helpers';
+import useDisruptionIndicator from './useDisruptionIndicator';
 
 type DisruptionIndicatorProps = DisruptionIndicatorTypes & typeof defaultProps;
 
@@ -36,42 +35,21 @@ const DisruptionIndicator = ({
   indicatorsVisibility,
   isRowOpen,
 }: NewProps): JSX.Element => {
-  const [{ editMode }, dispatch] = useContext(GlobalContext);
+  const { handleToggleIndicator, handleRemoveService, editMode } = useDisruptionIndicator(
+    id,
+    mode,
+    setIndicatorsVisibility
+  );
   const severity = getSeverityVars(disruptionSeverity);
-
   const disruptionText = disruptionTextElementToShow(severity.text, disruptionUrlSearchParams);
-
-  const removeService = () => {
-    dispatch({
-      type: 'REMOVE_SERVICE',
-      payload: {
-        mode,
-        id,
-      },
-    });
-  };
-
-  const filteredItem = indicatorsVisibility.filter(items => items.id === id);
-
-  const handleToggleIndicator = () => {
-    setIndicatorsVisibility(prevState => {
-      // Loop through all items
-      const newArr = prevState.map(item => {
-        // When we find the one that we clicked, then toggle its visibility state
-        if (item.id === id) return { ...item, visible: !item.visible };
-        return item; // If it's not our item, just return it
-      });
-
-      return newArr;
-    });
-  };
+  const currentIndicator = indicatorsVisibility.filter(items => items.id === id);
 
   return (
     <div className="wmnds-travel-update__disruption">
       <button
         type="button"
         className="wmnds-travel-update__disruption-indicator-btn"
-        aria-expanded={isRowOpen && filteredItem[0] && filteredItem[0].visible}
+        aria-expanded={isRowOpen && currentIndicator[0] && currentIndicator[0].visible}
         onClick={handleToggleIndicator}
       >
         <div
@@ -105,7 +83,7 @@ const DisruptionIndicator = ({
           type="button"
           className="wmnds-travel-update__disruption-delete"
           title={`Delete ${indicatorText}${optionalText && ` - ${optionalText}`} service`}
-          onClick={removeService}
+          onClick={handleRemoveService}
         >
           <Icon iconName="general-trash" />
         </button>
