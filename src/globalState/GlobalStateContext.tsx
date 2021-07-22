@@ -18,8 +18,14 @@ export type FavsStateProps = {
   roads: DisruptionIndicatorTypes[];
 };
 
-type InitialStateProps = {
+export type InitialStateProps = {
   editMode: boolean;
+  isRowExpandedOnMobile: {
+    bus: boolean;
+    tram: boolean;
+    train: boolean;
+    roads: boolean;
+  };
   hasFavs: boolean;
   favs: FavsStateProps;
   previousFavs: FavsStateProps;
@@ -30,6 +36,10 @@ type ActionType =
   | {
       type: 'SET_EDIT_MODE';
       payload: boolean;
+    }
+  | {
+      type: 'TOGGLE_ROW_VISIBILITY';
+      payload: { mode: DefaultModes; visible: boolean };
     }
   | {
       type: 'UPDATE_SERVICES';
@@ -55,6 +65,12 @@ type ActionType =
 
 const initialState: InitialStateProps = {
   editMode: false,
+  isRowExpandedOnMobile: {
+    bus: false,
+    tram: false,
+    train: false,
+    roads: false,
+  },
   hasFavs: hasAnyFavourites(),
   favs: {
     bus: [],
@@ -84,6 +100,18 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
           ...state,
           editMode: action.payload,
         };
+
+      case 'TOGGLE_ROW_VISIBILITY': {
+        const { mode, visible } = action.payload;
+
+        return {
+          ...state,
+          isRowExpandedOnMobile: {
+            ...state.isRowExpandedOnMobile,
+            [mode]: visible,
+          },
+        };
+      }
 
       case 'UPDATE_SERVICES': {
         const { mode, data } = action.payload;
