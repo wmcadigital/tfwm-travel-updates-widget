@@ -1,11 +1,9 @@
-import { useContext, useEffect, useState } from 'preact/hooks';
-// State
-import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
 import { DefaultModes } from 'sharedTypes';
 // Components
 import PersonalRowTitle from '../PersonalRowTitle/PersonalRowTitle';
 import DisruptionIndicator from '../DisruptionIndicator/DisruptionIndicator';
+import useAccordionLogic from '../../../customHooks/useAccordionLogic';
 
 type DisruptionRowContainerProps = {
   mode: DefaultModes;
@@ -13,49 +11,13 @@ type DisruptionRowContainerProps = {
   hasError: boolean;
 };
 
-type VisibleDisruptionIndicatorsProps = { id: string; visible: boolean };
-
 const DisruptionRowContainer = ({
   mode,
   isFetching,
   hasError,
 }: DisruptionRowContainerProps): JSX.Element => {
-  const [state] = useContext(GlobalContext);
-
-  const [visibleDisruptionIndicators, setVisibleDisruptionIndicators] = useState<
-    VisibleDisruptionIndicatorsProps[]
-  >([]);
-  const [isRowOpen, setIsRowOpen] = useState<boolean | 'all'>(false);
-
-  useEffect(() => {
-    if (!isFetching) {
-      const arr = state?.favs[mode].map(({ id }) => ({ id, visible: false }));
-      setVisibleDisruptionIndicators(arr);
-    }
-  }, [isFetching, mode, state?.favs]);
-
-  // Run everytime the disruptionIndicators changes state
-  useEffect(() => {
-    const mapArr = visibleDisruptionIndicators.filter(item => item.visible); // Loop through all disruption indicators and only return the visible ones
-
-    if (mapArr.length === 0) setIsRowOpen(false); // If there are no visible ones, then the isRowOpen toggle button needs to be set to false
-    if (mapArr.length > 0) setIsRowOpen(true); // Otherwise set it to true (open)
-  }, [setIsRowOpen, visibleDisruptionIndicators]);
-
-  // Run everytime the isRowOpen button changes state
-  useEffect(() => {
-    // Function to set all disruption indicators of a row to visible or not
-    const setVisibilityOfAllInidicators = (visible: boolean) => {
-      setVisibleDisruptionIndicators(prevState => {
-        const newArr = prevState.map(item => ({ ...item, visible }));
-
-        return newArr;
-      });
-    };
-
-    if (isRowOpen === 'all') setVisibilityOfAllInidicators(true); // If isRowOpen is all then we need to show everything so set visible to true
-    if (!isRowOpen) setVisibilityOfAllInidicators(false); // Otherwise if the row isn't open, then we need to set all indicators to not show
-  }, [isRowOpen, setVisibleDisruptionIndicators]);
+  const { state, isRowOpen, setIsRowOpen, setIndicatorsVisibility, indicatorsVisibility } =
+    useAccordionLogic(mode, isFetching);
 
   return (
     <>
@@ -93,10 +55,9 @@ const DisruptionRowContainer = ({
                 optionalText={optionalText}
                 modalIcon={modalIcon}
                 mode={mode}
-                setVisibleDisruptionIndicators={setVisibleDisruptionIndicators}
-                visibleDisruptionIndicators={visibleDisruptionIndicators}
+                setIndicatorsVisibility={setIndicatorsVisibility}
+                indicatorsVisibility={indicatorsVisibility}
                 isRowOpen={isRowOpen}
-                // setIsRowOpen={setIsRowOpen}
               />
             )
           )}

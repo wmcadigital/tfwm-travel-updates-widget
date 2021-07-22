@@ -5,18 +5,16 @@ import Icon from 'components/shared/Icon/Icon';
 // State
 import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
-import { DisruptionIndicatorTypes } from 'sharedTypes';
+import { DisruptionIndicatorTypes, IsRowOpen, VisibleDisruptionIndicators } from 'sharedTypes';
 // Helper funcs
 import { disruptionTextElementToShow, getSeverityVars } from './helpers';
 
 type DisruptionIndicatorProps = DisruptionIndicatorTypes & typeof defaultProps;
 
-type VisibleDisruptionIndicatorsProps = { id: string; visible: boolean };
-
 type NewProps = DisruptionIndicatorProps & {
-  setVisibleDisruptionIndicators: StateUpdater<VisibleDisruptionIndicatorsProps[]>;
-  visibleDisruptionIndicators: VisibleDisruptionIndicatorsProps[];
-  isRowOpen: boolean | 'all';
+  setIndicatorsVisibility: StateUpdater<VisibleDisruptionIndicators[]>;
+  indicatorsVisibility: VisibleDisruptionIndicators[];
+  isRowOpen: IsRowOpen;
 };
 
 const defaultProps = {
@@ -34,8 +32,8 @@ const DisruptionIndicator = ({
   mode,
   modalIcon,
   optionalText,
-  setVisibleDisruptionIndicators,
-  visibleDisruptionIndicators,
+  setIndicatorsVisibility,
+  indicatorsVisibility,
   isRowOpen,
 }: NewProps): JSX.Element => {
   const [{ editMode }, dispatch] = useContext(GlobalContext);
@@ -53,10 +51,10 @@ const DisruptionIndicator = ({
     });
   };
 
-  const filteredItem = visibleDisruptionIndicators.filter(items => items.id === id);
+  const filteredItem = indicatorsVisibility.filter(items => items.id === id);
 
   const handleToggleIndicator = () => {
-    setVisibleDisruptionIndicators(prevState => {
+    setIndicatorsVisibility(prevState => {
       // Loop through all items
       const newArr = prevState.map(item => {
         // When we find the one that we clicked, then toggle its visibility state

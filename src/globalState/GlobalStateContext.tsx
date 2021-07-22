@@ -18,7 +18,7 @@ export type FavsStateProps = {
   roads: DisruptionIndicatorTypes[];
 };
 
-type InitialStateProps = {
+export type InitialStateProps = {
   editMode: boolean;
   isRowExpandedOnMobile: {
     bus: boolean;

@@ -24,6 +24,7 @@ const PersonalRowTitle = ({
   const toggleRowVisibility = () => {
     setIsRowOpen(prevState => (prevState === 'all' || prevState ? false : 'all'));
   };
+
   return (
     <>
       <div className="wmnds-travel-update__disruption-title">
