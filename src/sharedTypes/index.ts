@@ -1,3 +1,4 @@
+export * from './accordion';
 export * from './context';
 export * from './general';
 export * from './modes';

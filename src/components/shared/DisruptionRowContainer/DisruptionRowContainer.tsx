@@ -1,13 +1,9 @@
-import { useContext } from 'preact/hooks';
-// Helpers
-import { capitaliseFirstChar } from 'sharedHelpers';
-// State
-import { GlobalContext } from 'globalState/GlobalStateContext';
 // Types
 import { DefaultModes } from 'sharedTypes';
 // Components
 import PersonalRowTitle from '../PersonalRowTitle/PersonalRowTitle';
 import DisruptionIndicator from '../DisruptionIndicator/DisruptionIndicator';
+import useAccordionLogic from '../../../customHooks/useAccordionLogic';
 
 type DisruptionRowContainerProps = {
   mode: DefaultModes;
@@ -20,19 +16,22 @@ const DisruptionRowContainer = ({
   isFetching,
   hasError,
 }: DisruptionRowContainerProps): JSX.Element => {
-  const [state] = useContext(GlobalContext);
+  const { state, isRowOpen, setIsRowOpen, setIndicatorsVisibility, indicatorsVisibility } =
+    useAccordionLogic(mode, isFetching);
 
   return (
     <>
       <div
         className={`wmnds-travel-update wmnds-travel-update--personal ${
-          state?.editMode && 'wmnds-travel-update--edit'
+          state?.editMode ? 'wmnds-travel-update--edit' : ''
         }`}
       >
         <PersonalRowTitle
-          title={capitaliseFirstChar(mode)}
+          mode={mode}
           isFetching={isFetching}
           hasError={hasError}
+          isRowOpen={isRowOpen}
+          setIsRowOpen={setIsRowOpen}
         />
 
         {/* Loop through modes services and show a disruption indicator for them */}
@@ -56,6 +55,9 @@ const DisruptionRowContainer = ({
                 optionalText={optionalText}
                 modalIcon={modalIcon}
                 mode={mode}
+                setIndicatorsVisibility={setIndicatorsVisibility}
+                indicatorsVisibility={indicatorsVisibility}
+                isRowOpen={isRowOpen}
               />
             )
           )}
