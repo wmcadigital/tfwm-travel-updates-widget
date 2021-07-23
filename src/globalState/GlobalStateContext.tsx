@@ -3,7 +3,7 @@ import { useReducer } from 'preact/hooks';
 // Helpers
 import { getDisruptionCookieData, hasAnyFavourites, setCookie } from 'sharedHelpers';
 // Types
-import { TrainEntity } from 'sharedHelpers/cookies/types';
+import { RoadsEntity, TrainEntity } from 'sharedHelpers/cookies/types';
 import {
   ContextProviderProps,
   CreateContextProps,
@@ -156,13 +156,17 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
           if (!cookieObj || !cookieObj.favs) return; // No fav object in cookies, then escape out of function
           const cookiesFavsObj = cookieObj.favs;
 
-          const cookiesModeArr = cookiesFavsObj[mode] as TrainEntity[] & string[]; // set as both because TypeScript has a bug with filtering union arrays
+          const cookiesModeArr = cookiesFavsObj[mode] as TrainEntity[] & RoadsEntity[] & string[]; // set as both because TypeScript has a bug with filtering union arrays
 
           if (!cookiesModeArr) return; // Avoid any undefined or empty arrays
 
           // Get round the TypeScript filter union array bug by splitting our filters into two seperate calls via an if statement and explicitely stating the type of item we expect to be here
           if (mode === 'train') {
             cookieObj.favs[mode] = cookiesModeArr.filter((item: TrainEntity) => item.line !== id); // Map filtered array back to our cookieObj
+          } else if (mode === 'roads') {
+            cookieObj.favs[mode] = cookiesModeArr.filter(
+              (item: RoadsEntity) => item.address !== id
+            );
           } else {
             cookieObj.favs[mode] = cookiesModeArr.filter((item: string) => item !== id); // Map filtered array back to our cookieObj
           }
