@@ -24,16 +24,17 @@ const useFetchRoads = (favs: RoadsFavEntity[]): UseFetchReturn => {
 
   // Function used to fetch from/to train stations
   const fetchData = ({ lat, lon, radius, address }: RoadsFavEntity) => {
-    const milesToMeters = (miles: number) => Math.round(miles * 1609.344) || miles;
+    const milesToMeters = (miles: number) => Math.round(miles * 1609.344); // Convert miles into meters (as API GET takes meters, not miles)
 
     return axios
       .get<TypeOrNull<RoadsAPI>>(
         `/Disruption/v2/Count/road?${lat}&lon=${lon}&rad=${milesToMeters(radius || 1)}`
       )
-      .then(resp => {
-        const responseData = resp.data; // Will return array with two objects (from/to stations)
+      .then((resp): RoadsAPIReturn => {
+        const responseData = resp.data;
 
-        const roadsObj: RoadsAPIReturn = {
+        // Structure object of data to return so that we can use it in our react components (disruption indicator)
+        const roadsObj = {
           address: address || 'No location found',
           radius: radius || 0,
           lat: lat || 0,

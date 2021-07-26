@@ -4,64 +4,8 @@ import { useReducer } from 'preact/hooks';
 import { getDisruptionCookieData, hasAnyFavourites, setCookie } from 'sharedHelpers';
 // Types
 import { RoadsFavEntity, TrainFavEntity } from 'sharedHelpers/cookies/types';
-import {
-  ContextProviderProps,
-  CreateContextProps,
-  DefaultModes,
-  DisruptionIndicatorTypes,
-} from 'sharedTypes';
-
-export type FavsStateProps = {
-  bus: DisruptionIndicatorTypes[];
-  tram: DisruptionIndicatorTypes[];
-  train: DisruptionIndicatorTypes[];
-  roads: DisruptionIndicatorTypes[];
-};
-
-export type InitialStateProps = {
-  editMode: boolean;
-  isRowExpandedOnMobile: {
-    bus: boolean;
-    tram: boolean;
-    train: boolean;
-    roads: boolean;
-  };
-  hasFavs: boolean;
-  favs: FavsStateProps;
-  previousFavs: FavsStateProps;
-  favsToRemoveOnSave: { mode: DefaultModes; id: string }[];
-};
-
-type ActionType =
-  | {
-      type: 'SET_EDIT_MODE';
-      payload: boolean;
-    }
-  | {
-      type: 'TOGGLE_ROW_VISIBILITY';
-      payload: { mode: DefaultModes; visible: boolean };
-    }
-  | {
-      type: 'UPDATE_SERVICES';
-      payload: {
-        mode: DefaultModes;
-        data: DisruptionIndicatorTypes[];
-      };
-    }
-  | {
-      type: 'REMOVE_SERVICE';
-      payload: {
-        mode: DefaultModes;
-        id: string;
-      };
-    }
-  | {
-      type: 'CANCEL_STATE';
-      payload: FavsStateProps;
-    }
-  | {
-      type: 'SAVE_NEW_STATE';
-    };
+import { ContextProviderProps, CreateContextProps } from 'sharedTypes';
+import { ActionType, InitialStateProps } from './types';
 
 const initialState: InitialStateProps = {
   editMode: false,
@@ -168,6 +112,7 @@ export const GlobalContextProvider = ({ children }: ContextProviderProps): JSX.E
               (item: TrainFavEntity) => item.line !== id
             ); // Map filtered array back to our cookieObj
           } else if (mode === 'roads') {
+            // As we set our id to be address + radius in disruption indicator for roads, we need to check if the address + radius is the same as our id. If it is, it will return false (meaning we filter it out). Otherwise return true and keep that cookie.
             cookieObj.favs[mode] = cookiesModeArr.filter(({ address, radius }: RoadsFavEntity) => {
               if (address && radius) return address + radius !== id;
               return true;

@@ -2,7 +2,7 @@
 import { RoadsFavEntity } from 'sharedHelpers/cookies/types';
 import { DisruptionSeverity } from 'sharedTypes';
 
-export type RoadsRowProp = {
+export type RoadsRowProps = {
   favs: RoadsFavEntity[];
 };
 
