@@ -5,9 +5,9 @@ import { TypeOrNull } from 'sharedTypes';
 import { RoadsFavEntity } from 'sharedHelpers/cookies/types';
 import { RoadsAPI, RoadsAPIReturn } from './types';
 
+// Axios config
 const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
 
-// Axios config
 axios.defaults.baseURL = REACT_APP_API_HOST;
 axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY };
 

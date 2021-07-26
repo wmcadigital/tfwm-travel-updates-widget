@@ -11,7 +11,7 @@ import useFetchRoads from './useFetchRoads';
 
 const RoadsRow = ({ favs }: RoadsRowProp): JSX.Element => {
   const [, dispatch] = useContext(GlobalContext);
-  const [copiedFavs] = useState(favs); // Map favs to react state, if we pass it directly to useFetchTrainStations hook, it will cause unnecessary re-renders of the parent component, which then re-renders this component causing a loop
+  const [copiedFavs] = useState(favs); // Map favs to react state, if we pass it directly to useFetchRoads hook, it will cause unnecessary re-renders of the parent component, which then re-renders this component causing a loop
   const { response, isFetching, hasError } = useFetchRoads(copiedFavs);
 
   useEffect(() => {
