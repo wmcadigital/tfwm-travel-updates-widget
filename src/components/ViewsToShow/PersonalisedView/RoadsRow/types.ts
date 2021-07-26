@@ -1,41 +1,23 @@
 // Types
-import { RoadsEntity } from 'sharedHelpers/cookies/types';
+import { RoadsFavEntity } from 'sharedHelpers/cookies/types';
 import { DisruptionSeverity } from 'sharedTypes';
 
 export type RoadsRowProp = {
-  favs: RoadsEntity[];
+  favs: RoadsFavEntity[];
 };
 
 export interface RoadsAPI {
-  disruptionTimeWindow: RoadsAPITimeWindow;
-  extent: RoadsAPIExtent;
-  disruptions?: RoadsAPIDisruptions[] | null;
+  totals: RoadsAPITotals;
+  status: RoadsAPIStatus;
   url: string;
   versionNo: string;
   staleAt: string;
 }
-export interface RoadsAPITimeWindow {
-  start: string;
-  end: string;
+export interface RoadsAPITotals {
+  road: number;
 }
-export interface RoadsAPIExtent {
-  minLat: number;
-  maxLat: number;
-  minLon: number;
-  maxLon: number;
-}
-export interface RoadsAPIDisruptions {
-  id: string;
-  mode: string;
-  disruptionTimeWindow: RoadsAPITimeWindow;
-  publicationTimeWindow: RoadsAPITimeWindow;
-  title: string;
-  description?: string | null;
-  subtitle: string;
-  disruptionSeverity: DisruptionSeverity;
-  lat: number;
-  lon: number;
-  servicesAffected?: null;
+export interface RoadsAPIStatus {
+  road: DisruptionSeverity;
 }
 
 export type RoadsAPIReturn = {

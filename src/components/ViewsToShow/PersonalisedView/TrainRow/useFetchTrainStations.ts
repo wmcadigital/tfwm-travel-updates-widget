@@ -2,7 +2,7 @@ import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
 // Types
 import { TypeOrNull } from 'sharedTypes';
-import { TrainEntity } from 'sharedHelpers/cookies/types';
+import { TrainFavEntity } from 'sharedHelpers/cookies/types';
 import { TrainStationAPIData, TrainStationAPI } from './types';
 
 // Axios config
@@ -15,14 +15,14 @@ interface UseFetchReturn {
   hasError: boolean;
 }
 
-const useFetchTrainStations = (favs: TrainEntity[]): UseFetchReturn => {
+const useFetchTrainStations = (favs: TrainFavEntity[]): UseFetchReturn => {
   const [response, setResponse] =
     useState<TypeOrNull<{ filteredData: TrainStationAPIData[] }>>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false); // Placeholder to set error messaging
 
   // Function used to fetch from/to train stations
-  const fetchData = ({ from, to, line }: TrainEntity) =>
+  const fetchData = ({ from, to, line }: TrainFavEntity) =>
     axios
       .get<TypeOrNull<TrainStationAPI>>(`/rail/v2/Station/${from},${to}`)
       .then(resp => {

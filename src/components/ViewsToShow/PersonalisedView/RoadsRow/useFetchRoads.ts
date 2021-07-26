@@ -2,12 +2,14 @@ import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
 // Types
 import { TypeOrNull } from 'sharedTypes';
-import { RoadsEntity } from 'sharedHelpers/cookies/types';
+import { RoadsFavEntity } from 'sharedHelpers/cookies/types';
 import { RoadsAPI, RoadsAPIReturn } from './types';
 
+const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
+
 // Axios config
-axios.defaults.baseURL = 'https://wmca-api-portal-staging.azure-api.net';
-axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': '0d4cca4a2c5d40c3bfbbfe45d1bbf294' };
+axios.defaults.baseURL = REACT_APP_API_HOST;
+axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY };
 
 interface UseFetchReturn {
   response: TypeOrNull<{ filteredData: RoadsAPIReturn[] }>;
@@ -15,39 +17,37 @@ interface UseFetchReturn {
   hasError: boolean;
 }
 
-const useFetchRoads = (favs: RoadsEntity[]): UseFetchReturn => {
+const useFetchRoads = (favs: RoadsFavEntity[]): UseFetchReturn => {
   const [response, setResponse] = useState<TypeOrNull<{ filteredData: RoadsAPIReturn[] }>>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false); // Placeholder to set error messaging
 
   // Function used to fetch from/to train stations
-  const fetchData = ({ lat, lon, radius, address }: RoadsEntity) =>
-    axios
-      .get<TypeOrNull<RoadsAPI>>(`/Disruption/v2/road?lat=${lat}&lon=${lon}&rad=${radius}`)
+  const fetchData = ({ lat, lon, radius, address }: RoadsFavEntity) => {
+    const milesToMeters = (miles: number) => Math.round(miles * 1609.344) || miles;
+
+    return axios
+      .get<TypeOrNull<RoadsAPI>>(
+        `/Disruption/v2/Count/road?${lat}&lon=${lon}&rad=${milesToMeters(radius || 1)}`
+      )
       .then(resp => {
         const responseData = resp.data; // Will return array with two objects (from/to stations)
-        // let trainObj = responseData && responseData[0]; // Start off with first object/station in array
 
-        let roadsObj: RoadsAPIReturn = {
+        const roadsObj: RoadsAPIReturn = {
           address: address || 'No location found',
           radius: radius || 0,
           lat: lat || 0,
           lon: lon || 0,
-          amountOfDisruptions: 0,
-          disruptionSeverity: 'normal',
+          amountOfDisruptions: responseData?.totals.road || 0,
+          disruptionSeverity: responseData?.status.road || 'normal',
         };
-        if (responseData?.disruptions?.length)
-          roadsObj = {
-            ...roadsObj,
-            amountOfDisruptions: responseData?.disruptions?.length,
-            disruptionSeverity: responseData?.disruptions[0].disruptionSeverity || 'normal',
-          };
 
         return roadsObj;
       })
       .catch(error => {
         throw new Error(error);
       });
+  };
 
   // START HERE
   useEffect(() => {

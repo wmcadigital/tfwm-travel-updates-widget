@@ -23,6 +23,7 @@ const RoadsRow = ({ favs }: RoadsRowProp): JSX.Element => {
           disruptionUrlSearchParams: `?mode=roads&query=${address}&address=${address}&lat=${lat}&long=${lon}&radius=${radius}`,
           indicatorText: address,
           optionalText: `${radius} miles`,
+          formatDisruptionIndicatorText: true,
           modalIcon: 'roads',
           mode: 'roads',
         })
