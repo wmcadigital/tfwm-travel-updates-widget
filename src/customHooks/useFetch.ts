@@ -4,8 +4,10 @@ import axios from 'axios';
 import { TypeOrNull } from 'sharedTypes';
 
 // Axios config
-axios.defaults.baseURL = 'https://wmca-api-portal-staging.azure-api.net';
-axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': '0d4cca4a2c5d40c3bfbbfe45d1bbf294' };
+const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
+
+axios.defaults.baseURL = REACT_APP_API_HOST;
+axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY };
 
 interface UseFetchReturn<ExpectedResponse> {
   response: TypeOrNull<ExpectedResponse>;
