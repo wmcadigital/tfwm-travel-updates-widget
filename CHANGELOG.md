@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/wmcadigital/tfwm-travel-updates-widget/compare/v1.1.0...v1.2.0) (2021-07-29)
+
+
+### Features
+
+* Personal view now shows any location and radiuses saved via favourites for roads ([#12](https://github.com/wmcadigital/tfwm-travel-updates-widget/issues/12)) ([f030c78](https://github.com/wmcadigital/tfwm-travel-updates-widget/commit/f030c782cef87b0135ff302a482831c5c09d4cf7))
+
 # [1.1.0](https://github.com/wmcadigital/tfwm-travel-updates-widget/compare/v1.0.0...v1.1.0) (2021-07-22)
 
 
