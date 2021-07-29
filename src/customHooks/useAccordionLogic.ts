@@ -1,9 +1,8 @@
 import { StateUpdater, useContext, useEffect, useState } from 'preact/hooks';
 // State
-import { GlobalContext } from 'globalState/GlobalStateContext';
+import { GlobalContext, InitialStateProps } from 'globalState/GlobalStateContext';
 // Types
 import { DefaultModes, IsRowOpen, VisibleDisruptionIndicators } from 'sharedTypes';
-import { InitialStateProps } from 'globalState/types';
 
 type UseAccordionLogicReturn = {
   state: InitialStateProps;

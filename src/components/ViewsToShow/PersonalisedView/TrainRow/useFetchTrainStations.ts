@@ -2,14 +2,12 @@ import { useState, useEffect } from 'preact/hooks';
 import axios from 'axios';
 // Types
 import { TypeOrNull } from 'sharedTypes';
-import { TrainFavEntity } from 'sharedHelpers/cookies/types';
+import { TrainEntity } from 'sharedHelpers/cookies/types';
 import { TrainStationAPIData, TrainStationAPI } from './types';
 
 // Axios config
-const { REACT_APP_API_HOST, REACT_APP_API_KEY } = process.env;
-
-axios.defaults.baseURL = REACT_APP_API_HOST;
-axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': REACT_APP_API_KEY };
+axios.defaults.baseURL = 'https://wmca-api-portal-staging.azure-api.net';
+axios.defaults.headers = { 'Ocp-Apim-Subscription-Key': '0d4cca4a2c5d40c3bfbbfe45d1bbf294' };
 
 interface UseFetchReturn {
   response: TypeOrNull<{ filteredData: TrainStationAPIData[] }>;
@@ -17,14 +15,14 @@ interface UseFetchReturn {
   hasError: boolean;
 }
 
-const useFetchTrainStations = (favs: TrainFavEntity[]): UseFetchReturn => {
+const useFetchTrainStations = (favs: TrainEntity[]): UseFetchReturn => {
   const [response, setResponse] =
     useState<TypeOrNull<{ filteredData: TrainStationAPIData[] }>>(null);
   const [isFetching, setIsFetching] = useState<boolean>(true);
   const [hasError, setHasError] = useState<boolean>(false); // Placeholder to set error messaging
 
   // Function used to fetch from/to train stations
-  const fetchData = ({ from, to, line }: TrainFavEntity) =>
+  const fetchData = ({ from, to, line }: TrainEntity) =>
     axios
       .get<TypeOrNull<TrainStationAPI>>(`/rail/v2/Station/${from},${to}`)
       .then(resp => {

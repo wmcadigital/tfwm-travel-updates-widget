@@ -5,19 +5,12 @@ export interface DisruptionFavs {
 }
 export interface Favs {
   bus?: string[] | undefined;
-  train?: TrainFavEntity[] | undefined;
+  train?: TrainEntity[] | undefined;
   tram?: string[] | undefined;
-  roads?: RoadsFavEntity[] | undefined;
+  roads?: string[] | undefined;
 }
-export interface TrainFavEntity {
+export interface TrainEntity {
   from: string | undefined;
   line: string | undefined;
   to: string | undefined;
-}
-
-export interface RoadsFavEntity {
-  address: string | undefined;
-  lat: number | undefined;
-  lon: number | undefined;
-  radius: number | undefined;
 }

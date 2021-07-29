@@ -1,9 +1,9 @@
 // Types
-import { TrainFavEntity } from 'sharedHelpers/cookies/types';
+import { TrainEntity } from 'sharedHelpers/cookies/types';
 import { DisruptionSeverity } from 'sharedTypes';
 
 export type TrainRowProps = {
-  favs: TrainFavEntity[];
+  favs: TrainEntity[];
 };
 
 export interface TrainStationAPI {

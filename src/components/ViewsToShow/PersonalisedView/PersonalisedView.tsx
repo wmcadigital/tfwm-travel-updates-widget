@@ -5,10 +5,9 @@ import PersonalisedCTAButtons from './PersonalisedCTAButtons/PersonalisedCTAButt
 import BusRow from './BusRow/BusRow';
 import TramRow from './TramRow/TramRow';
 import TrainRow from './TrainRow/TrainRow';
-import RoadsRow from './RoadsRow/RoadsRow';
 
 const PersonalisedView = (): JSX.Element => {
-  const { bus, tram, train, roads } = getFavouritesFromCookies();
+  const { bus, tram, train } = getFavouritesFromCookies();
 
   // Check if we have any favs for each mode, if so then show the relevant row
   return (
@@ -16,7 +15,6 @@ const PersonalisedView = (): JSX.Element => {
       {bus && bus?.length > 0 && <BusRow favs={bus} />}
       {tram && tram?.length > 0 && <TramRow favs={tram} />}
       {train && train?.length > 0 && <TrainRow favs={train} />}
-      {roads && roads?.length > 0 && <RoadsRow favs={roads} />}
 
       <PersonalisedCTAButtons />
     </>

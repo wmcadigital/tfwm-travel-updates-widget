@@ -1,3 +1,3 @@
-import { TrainFavEntity } from 'sharedHelpers/cookies/types';
+import { TrainEntity } from 'sharedHelpers/cookies/types';
 
-export type CurrentFavs = ['bus' | 'tram' | 'roads', string[]] | ['train', TrainFavEntity[]];
+export type CurrentFavs = ['bus' | 'tram' | 'roads', string[]] | ['train', TrainEntity[]];
