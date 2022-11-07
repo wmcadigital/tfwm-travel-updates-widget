@@ -44,10 +44,10 @@ export const getSeverityVars = (
         class: 'severe',
       };
       break;
-    // Good service (low)
+    // No known disruption (low)
     default:
       disruptionFlag = {
-        text: 'Good service',
+        text: 'No known disruption',
         icon: 'success',
         class: 'success',
       };
