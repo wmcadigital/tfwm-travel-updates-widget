@@ -44,10 +44,10 @@ export const getSeverityVars = (
         class: 'severe',
       };
       break;
-    // Good service (low)
+    // No known disruptions (low)
     default:
       disruptionFlag = {
-        text: 'Good service',
+        text: 'No known disruptions',
         icon: 'success',
         class: 'success',
       };
@@ -58,8 +58,8 @@ export const getSeverityVars = (
 };
 
 export const disruptionTextElementToShow = (text: string, urlPath: string): JSX.Element => {
-  //  // If good service, display as strong. Otherwise display as link to that service
-  if (text.toLowerCase() !== 'good service')
+  //  // If no known disruptions, display as strong. Otherwise display as link to that service
+  if (text.toLowerCase() !== 'no known disruptions')
     return <Link href={`//disruptions.tfwm.org.uk/${urlPath}`}>{text}</Link>;
 
   return <strong>{text}</strong>;
