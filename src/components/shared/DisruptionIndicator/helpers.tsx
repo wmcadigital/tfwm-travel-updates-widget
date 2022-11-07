@@ -58,8 +58,8 @@ export const getSeverityVars = (
 };
 
 export const disruptionTextElementToShow = (text: string, urlPath: string): JSX.Element => {
-  //  // If No known disruptions, display as strong. Otherwise display as link to that service
-  if (text.toLowerCase() !== 'No known disruptions')
+  //  // If no known disruptions, display as strong. Otherwise display as link to that service
+  if (text.toLowerCase() !== 'no known disruptions')
     return <Link href={`//disruptions.tfwm.org.uk/${urlPath}`}>{text}</Link>;
 
   return <strong>{text}</strong>;
