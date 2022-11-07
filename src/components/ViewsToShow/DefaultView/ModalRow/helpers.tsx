@@ -20,10 +20,10 @@ const disruptionIconToShow = (
   totalDisruptions: number | undefined,
   mode: DefaultModes
 ): DisruptionIconToShow => {
-  // If total modal disruption is 0 (good service)
+  // If total modal disruption is 0 (no known disruptions)
   let iconName = 'general-success';
   let disruptionIndicatorClass = 'wmnds-disruption-indicator-medium--success';
-  let htmlToShow = <strong>Good service</strong>;
+  let htmlToShow = <strong>No known disruptions</strong>;
 
   // If total modal  disruptions on mode is not 0 then it has disruptions
   if (totalDisruptions !== 0) {
