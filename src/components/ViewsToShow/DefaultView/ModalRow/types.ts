@@ -5,4 +5,6 @@ export type ModalRowProps = {
   isFetching: boolean;
   response: TypeOrNull<CountApiTypes>;
   mode: DefaultModes;
+  from: string;
+  to: string;
 };

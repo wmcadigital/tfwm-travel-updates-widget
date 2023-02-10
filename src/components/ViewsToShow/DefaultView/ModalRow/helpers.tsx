@@ -14,11 +14,15 @@ interface DisruptionIconToShow {
   iconName: string;
   disruptionIndicatorClass: string;
   htmlToShow: JSXInternal.Element;
+  from: string;
+  to: string;
 }
 
 const disruptionIconToShow = (
   totalDisruptions: number | undefined,
-  mode: DefaultModes
+  mode: DefaultModes,
+  from: string,
+  to: string
 ): DisruptionIconToShow => {
   // If total modal disruption is 0 (no known disruptions)
   let iconName = 'general-success';
@@ -36,7 +40,7 @@ const disruptionIconToShow = (
     );
   }
 
-  return { iconName, disruptionIndicatorClass, htmlToShow };
+  return { iconName, disruptionIndicatorClass, htmlToShow, from, to };
 };
 
 export { correctModalIcon, disruptionIconToShow };
