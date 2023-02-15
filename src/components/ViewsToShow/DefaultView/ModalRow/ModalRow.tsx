@@ -6,14 +6,16 @@ import { correctModalIcon, disruptionIconToShow } from './helpers';
 // Types
 import { ModalRowProps } from './types';
 
-const ModalRow = ({ isFetching, response, mode }: ModalRowProps): JSX.Element => {
+const ModalRow = ({ isFetching, response, mode, from, to }: ModalRowProps): JSX.Element => {
   const modalIcon = correctModalIcon(mode);
   const modalName = mode === 'roads' ? 'road' : mode;
   const totalDisruptions = response?.totals[modalName];
 
   let { iconName, disruptionIndicatorClass, htmlToShow } = disruptionIconToShow(
     totalDisruptions,
-    mode
+    mode,
+    from,
+    to
   );
 
   if (isFetching) {
