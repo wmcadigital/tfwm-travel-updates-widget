@@ -20,7 +20,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '18.x'
+          node-version: '18.0.0'
       # Dry run a release to check if one if necessary
       - name: Check for new release
         uses: cycjimmy/semantic-release-action@v2.5.0
