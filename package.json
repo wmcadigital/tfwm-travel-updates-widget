@@ -6,7 +6,7 @@
   "author": "WMCA",
   "copyright": "WMCA",
   "main": "build/static/js/build.min.js",
-  "repository": "wmcadigital/tfwm-travel-updates-widget",
+  "repository": "https://github.com/wmcadigital/tfwm-travel-updates-widget",
   "keywords": [
     "travel",
     "transport",
