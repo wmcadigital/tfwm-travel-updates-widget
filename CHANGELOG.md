@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/wmcadigital/tfwm-travel-updates-widget/compare/v1.3.0...v1.3.1) (2023-03-13)
+
+
+### Bug Fixes
+
+* release actions ([#48](https://github.com/wmcadigital/tfwm-travel-updates-widget/issues/48)) ([#49](https://github.com/wmcadigital/tfwm-travel-updates-widget/issues/49)) ([f6da88b](https://github.com/wmcadigital/tfwm-travel-updates-widget/commit/f6da88bf0ff64c8eaf720102218e0f313d8dedf1))
+
 # [1.2.0](https://github.com/wmcadigital/tfwm-travel-updates-widget/compare/v1.1.0...v1.2.0) (2021-07-29)
 
 ### Features
